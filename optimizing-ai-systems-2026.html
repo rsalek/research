@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A validated systems tutorial on AI inference economics, hardware-software co-design, model shapes, world models, and useful cognitive work per pound, joule, and second.">
+  <title>Optimizing AI Systems — From silicon to useful cognitive work</title>
+  <style>
+    :root {
+      --ink: #182321;
+      --muted: #596966;
+      --paper: #f3f0e8;
+      --surface: #fffdf8;
+      --forest: #28594d;
+      --forest-soft: #dfeae4;
+      --rust: #b75332;
+      --rust-soft: #f3e0d7;
+      --ochre: #aa7b22;
+      --ochre-soft: #efe6cd;
+      --slate: #44545c;
+      --line: #d6d8d0;
+      --max: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 16px/1.62 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--forest); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--rust); }
+    h1, h2, h3 { margin-top: 0; line-height: 1.12; letter-spacing: -.025em; }
+    h1 { max-width: 960px; margin-bottom: 1rem; font: 600 clamp(2.7rem, 7vw, 5.1rem)/1.02 Georgia, serif; }
+    h2 { margin-bottom: .9rem; font: 600 clamp(1.85rem, 4vw, 2.8rem)/1.08 Georgia, serif; }
+    h3 { margin-bottom: .55rem; font: 650 1.25rem/1.2 Georgia, serif; }
+    p { margin: 0 0 1rem; }
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .fine { color: var(--muted); font-size: .82rem; }
+    .lead { max-width: 840px; color: #30443f; font-size: clamp(1.08rem, 2vw, 1.35rem); line-height: 1.5; }
+    .kicker { max-width: 760px; color: var(--muted); font-size: 1.02rem; }
+
+    .topbar { border-bottom: 1px solid rgba(24,35,33,.15); background: rgba(243,240,232,.94); position: sticky; top: 0; z-index: 10; }
+    .topbar .wrap { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { color: inherit; font-weight: 750; text-decoration: none; }
+    .meta { display: flex; gap: 1rem; color: var(--muted); font-size: .78rem; text-align: right; }
+
+    .hero { padding: 72px 0 54px; border-bottom: 1px solid var(--line); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0,1.45fr) minmax(280px,.55fr); gap: 3rem; align-items: end; }
+    .label { margin-bottom: 1rem; color: var(--forest); font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; }
+    .hero-aside { padding: 1.25rem 0 0 1.4rem; border-left: 4px solid var(--rust); }
+    .hero-aside b { display: block; margin-bottom: .45rem; font: 600 1.35rem/1.25 Georgia, serif; }
+    .hero-aside p { color: var(--muted); font-size: .9rem; }
+
+    .signal-strip { display: grid; grid-template-columns: repeat(4,1fr); border-bottom: 1px solid var(--line); }
+    .signal { padding: 1.2rem 1.25rem; border-right: 1px solid var(--line); }
+    .signal:last-child { border-right: 0; }
+    .signal b { display: block; margin-bottom: .15rem; font: 600 1.55rem Georgia, serif; color: var(--forest); }
+    .signal span { color: var(--muted); font-size: .79rem; line-height: 1.4; }
+
+    section { padding: 68px 0; }
+    section.alt { background: rgba(255,253,248,.7); border-block: 1px solid rgba(24,35,33,.08); }
+    .section-head { display: grid; grid-template-columns: .72fr 1.28fr; gap: 2rem; margin-bottom: 2rem; align-items: start; }
+
+    .thesis-grid { display: grid; grid-template-columns: repeat(4,1fr); border: 1px solid var(--line); background: var(--surface); }
+    .thesis { padding: 1.25rem; border-right: 1px solid var(--line); }
+    .thesis:last-child { border-right: 0; }
+    .thesis b { display: block; margin-bottom: .45rem; font: 600 1.1rem Georgia, serif; color: var(--forest); }
+    .thesis p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+
+    .stack { display: grid; grid-template-columns: repeat(5,1fr); gap: 1px; border: 1px solid var(--line); background: var(--line); }
+    .stack-step { position: relative; min-height: 158px; padding: 1rem; background: var(--surface); }
+    .stack-step::after { content: "→"; position: absolute; right: -13px; top: 50%; z-index: 2; width: 24px; height: 24px; border: 1px solid var(--line); border-radius: 50%; background: var(--paper); color: var(--rust); text-align: center; line-height: 21px; }
+    .stack-step:last-child::after { display: none; }
+    .stack-step b { display: block; font: 600 1.05rem Georgia, serif; }
+    .stack-step span { display: block; margin-top: .4rem; color: var(--muted); font-size: .79rem; line-height: 1.4; }
+    .stack-step em { display: block; margin-top: .65rem; color: var(--forest); font-size: .72rem; font-style: normal; font-weight: 750; }
+
+    .formula { margin: 1.4rem 0; padding: 1.25rem; border: 1px solid var(--line); background: var(--surface); text-align: center; font: 600 clamp(1.05rem,2vw,1.4rem) Georgia, serif; }
+    .formula span { color: var(--rust); }
+    .note { margin-top: 1.15rem; padding: 1rem 1.1rem; border-left: 4px solid var(--ochre); background: var(--ochre-soft); font-size: .86rem; }
+    .note p { margin: 0; }
+
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .chart-card { min-width: 0; margin: 0; padding: 1.25rem; border: 1px solid var(--line); background: var(--surface); }
+    .chart-card h3 { font-size: 1.3rem; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: .45rem 1rem; min-height: 42px; margin: .4rem 0 .8rem; padding: .55rem .65rem; border-block: 1px solid var(--line); color: var(--slate); font-size: .75rem; }
+    .legend-item { display: inline-flex; align-items: center; gap: .4rem; }
+    .swatch { width: 20px; height: 4px; background: var(--forest); }
+    .swatch.rust { background: var(--rust); }
+    .swatch.ochre { background: var(--ochre); }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--forest); }
+    .dot.rust { background: var(--rust); }
+    .chart-scroll { overflow-x: auto; scrollbar-color: var(--line) transparent; }
+    .chart-svg { display: block; width: 100%; height: auto; border: 1px solid var(--line); background: #fffefa; }
+    figcaption { margin-top: .85rem; color: var(--muted); font-size: .82rem; line-height: 1.5; }
+    figcaption strong { color: var(--ink); }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+    table { width: 100%; min-width: 980px; border-collapse: collapse; }
+    th { padding: .85rem .9rem; background: #263b36; color: #fffdf8; text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+    td { padding: .9rem; border-bottom: 1px solid var(--line); vertical-align: top; font-size: .86rem; line-height: 1.48; }
+    tbody tr:last-child td { border-bottom: 0; }
+    td strong { color: #263b36; }
+    .status { font-weight: 800; white-space: nowrap; }
+    .status.supported { color: var(--forest); }
+    .status.qualified { color: #8a641d; }
+    .status.unverified { color: var(--rust); }
+
+    .phase-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    .phase { padding: 1.15rem; border-top: 4px solid var(--forest); border-inline: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); }
+    .phase:nth-child(2) { border-top-color: var(--ochre); }
+    .phase:nth-child(3) { border-top-color: var(--rust); }
+    .phase h3 { font-size: 1.12rem; }
+    .phase dl { margin: .8rem 0 0; }
+    .phase dt { margin-top: .7rem; color: var(--muted); font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+    .phase dd { margin: .15rem 0 0; font-size: .83rem; line-height: 1.45; }
+
+    .world-loop { display: grid; grid-template-columns: repeat(5,1fr); align-items: center; gap: .7rem; margin-top: 1.4rem; }
+    .loop-node { min-height: 120px; padding: 1rem; border: 1px solid var(--line); background: var(--surface); text-align: center; }
+    .loop-node b { display: block; font: 600 1.04rem Georgia, serif; }
+    .loop-node span { display: block; margin-top: .4rem; color: var(--muted); font-size: .77rem; line-height: 1.4; }
+    .loop-arrow { color: var(--rust); text-align: center; font-size: 1.35rem; }
+
+    .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .checklist > div { padding: 1.15rem; border: 1px solid var(--line); background: var(--surface); }
+    .checklist ol, .checklist ul { margin: .7rem 0 0; padding-left: 1.2rem; }
+    .checklist li { margin: .48rem 0; font-size: .86rem; }
+
+    .source-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+    .source { padding: .95rem 0; border-bottom: 1px solid var(--line); }
+    .source b { display: block; margin-bottom: .15rem; }
+    .source p { margin: 0; color: var(--muted); font-size: .81rem; line-height: 1.43; }
+
+    .bottom { padding-bottom: 72px; }
+    .bottom-box { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2.5rem; padding: 2rem; background: #263b36; color: #fffdf8; }
+    .bottom-box h2 { margin: 0; color: #fff; }
+    .bottom-box p { color: #dbe5e0; }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 1rem; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .section-head, .chart-grid, .phase-grid, .checklist, .source-grid, .bottom-box { grid-template-columns: 1fr; }
+      .thesis-grid { grid-template-columns: 1fr 1fr; }
+      .thesis:nth-child(2) { border-right: 0; }
+      .thesis:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .stack { grid-template-columns: 1fr; }
+      .stack-step { min-height: 0; }
+      .stack-step::after { content: "↓"; right: 1rem; top: auto; bottom: -13px; }
+      .world-loop { grid-template-columns: 1fr; }
+      .loop-arrow { transform: rotate(90deg); }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(calc(100% - 26px), var(--max)); }
+      .topbar { position: static; }
+      .meta { display: block; }
+      .hero { padding: 46px 0 38px; }
+      section { padding: 50px 0; }
+      .signal-strip, .thesis-grid { grid-template-columns: 1fr; }
+      .signal, .thesis { border-right: 0; border-bottom: 1px solid var(--line); }
+      .signal:last-child, .thesis:last-child { border-bottom: 0; }
+      .chart-scroll .chart-svg { min-width: 560px; }
+      footer .wrap { display: block; }
+    }
+    @media print { .topbar { position: static; } a { color: inherit; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="./">Research Library</a>
+      <div class="meta"><span>Published<br><b>17 Aug 2026</b></span><span>Evidence cut-off<br><b>17 Aug 2026</b></span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="label">AI systems · Inference economics · World models</div>
+          <h1>Optimizing AI systems from silicon to useful work</h1>
+          <p class="lead">A system can generate more tokens and still create less value. The correct optimisation target combines task quality, latency, throughput, energy, cost, and reliability—then traces the bottleneck through model architecture, software, memory, interconnect, racks, and power.</p>
+        </div>
+        <aside class="hero-aside">
+          <b>The unit of analysis is the whole system.</b>
+          <p>Local gains multiply only when they remain compatible. A faster kernel may move the bottleneck into memory; a cheaper model may reduce task success; a high-throughput configuration may be unusably slow for an interactive agent.</p>
+        </aside>
+      </div>
+    </section>
+
+    <div class="wrap signal-strip">
+      <div class="signal"><b>2 phases</b><span>Prefill is usually compute-intensive; autoregressive decode is often limited by memory movement and communication.</span></div>
+      <div class="signal"><b>3 clocks</b><span>Time to first token, time per output token, and end-to-end task completion describe different user experiences.</span></div>
+      <div class="signal"><b>671B / 37B</b><span>DeepSeek-V3 discloses 671 billion total parameters with 37 billion activated per token.</span></div>
+      <div class="signal"><b>150+</b><span>DreamerV3 was evaluated across more than 150 tasks using a common configuration.</span></div>
+    </div>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>The thesis in four statements</h2>
+          <p class="kicker">AI efficiency is not a single hardware number. It is a chain of coupled design choices whose value depends on the workload and the economic cost of waiting, failing, or consuming scarce capacity.</p>
+        </div>
+        <div class="thesis-grid">
+          <div class="thesis"><b>1. Optimise outcomes</b><p>Tokens, FLOPs and accelerator utilisation are intermediate measures. The economically relevant numerator is a quality-adjusted completed task.</p></div>
+          <div class="thesis"><b>2. Choose a service point</b><p>Interactive coding, voice, and agents value latency. Offline indexing and document processing value aggregate throughput and low unit cost.</p></div>
+          <div class="thesis"><b>3. Co-design the stack</b><p>Model shape, precision, kernels, memory layout, parallelism, networking, cooling, and power must work together. Isolated improvements can cancel one another.</p></div>
+          <div class="thesis"><b>4. Re-benchmark continuously</b><p>Frameworks, kernels, drivers, quantisation, schedulers, and models change. A benchmark is a dated configuration—not a permanent property of a chip.</p></div>
+        </div>
+        <div class="formula"><span>Useful cognitive work</span> ÷ (pounds × joules × seconds × operational risk)</div>
+        <p class="fine">This is a decision framework, not a literal universal scalar. Each deployment must define “useful work,” acceptable quality, latency objectives, and failure costs.</p>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>The abstraction stack</h2>
+          <p class="kicker">Every layer shapes the feasible operating frontier. Optimisation works when the constraints are passed both downward—what the application needs—and upward—what the infrastructure can deliver.</p>
+        </div>
+        <div class="stack" aria-label="AI optimization stack">
+          <div class="stack-step"><b>Outcome &amp; application</b><span>Defines task success, acceptable latency, reliability and user value.</span><em>Measure: value per completed task</em></div>
+          <div class="stack-step"><b>Model &amp; algorithm</b><span>Dense or sparse architecture, attention design, precision, routing and decoding method.</span><em>Measure: quality per active operation</em></div>
+          <div class="stack-step"><b>Runtime &amp; kernels</b><span>Batching, scheduling, KV-cache management, compiler choices and fused operations.</span><em>Measure: attained utilisation</em></div>
+          <div class="stack-step"><b>Silicon &amp; fabric</b><span>Compute units, HBM capacity and bandwidth, scale-up links and scale-out networking.</span><em>Measure: useful work per device-hour</em></div>
+          <div class="stack-step"><b>Rack, power &amp; economics</b><span>Cooling, electrical delivery, uptime, capital cost, financing and contract structure.</span><em>Measure: quality-adjusted work per MW and pound</em></div>
+        </div>
+        <div class="note"><p><strong>Why multiplication is dangerous:</strong> several “2×” component gains do not automatically become a large system gain. Benefits overlap, depend on workload shape, and may require extra memory, engineering labour, lower quality, or lower concurrency.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Inference economics: two frontiers</h2>
+          <p class="kicker">The first chart shows the latency–throughput trade-off. The second applies the Roofline model: attainable performance rises with arithmetic intensity until peak compute becomes the limiting ceiling. Both are conceptual diagrams, not vendor benchmarks.</p>
+        </div>
+        <div class="chart-grid">
+          <figure class="chart-card">
+            <h3>Throughput–interactivity frontier</h3>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="swatch"></span>Pareto-efficient configurations</span>
+              <span class="legend-item"><span class="dot rust"></span>Dominated configurations</span>
+            </div>
+            <div class="chart-scroll" role="group" aria-label="Scrollable chart area">
+              <svg class="chart-svg" viewBox="0 0 760 450" role="img" aria-labelledby="frontier-title frontier-desc">
+                <title id="frontier-title">Illustrative throughput versus per-user interactivity frontier</title>
+                <desc id="frontier-desc">Aggregate token throughput rises as per-user speed falls. Efficient configurations form a downward-sloping frontier; dominated points provide less throughput at the same interactivity.</desc>
+                <g font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+                  <text x="78" y="34" fill="#182321" font-size="13" font-weight="700">Aggregate output throughput</text>
+                  <text x="78" y="52" fill="#596966" font-size="11">Illustrative tokens per second across all requests</text>
+                  <g stroke="#e1e2dc" stroke-width="1">
+                    <line x1="78" y1="88" x2="704" y2="88"/><line x1="78" y1="148" x2="704" y2="148"/><line x1="78" y1="208" x2="704" y2="208"/><line x1="78" y1="268" x2="704" y2="268"/><line x1="78" y1="328" x2="704" y2="328"/><line x1="78" y1="368" x2="704" y2="368"/>
+                    <line x1="78" y1="88" x2="78" y2="368"/><line x1="234" y1="88" x2="234" y2="368" stroke-dasharray="3 5"/><line x1="390" y1="88" x2="390" y2="368" stroke-dasharray="3 5"/><line x1="546" y1="88" x2="546" y2="368" stroke-dasharray="3 5"/><line x1="704" y1="88" x2="704" y2="368"/>
+                  </g>
+                  <g fill="#596966" font-size="11" text-anchor="end"><text x="66" y="92">High</text><text x="66" y="212">Medium</text><text x="66" y="372">Low</text></g>
+                  <g fill="#596966" font-size="11" text-anchor="middle"><text x="78" y="389">Low</text><text x="390" y="389">Medium</text><text x="704" y="389">High</text><text x="391" y="424" fill="#344844" font-size="12" font-weight="700">Per-user interactivity (tokens/s/user) →</text></g>
+                  <path d="M96 106 C190 112 275 130 350 158 S495 225 558 270 S653 326 690 350" fill="none" stroke="#28594d" stroke-width="4" stroke-linecap="round"/>
+                  <g fill="#fffefa" stroke="#28594d" stroke-width="3"><circle cx="96" cy="106" r="7"/><circle cx="240" cy="124" r="7"/><circle cx="350" cy="158" r="7"/><circle cx="458" cy="205" r="7"/><circle cx="558" cy="270" r="7"/><circle cx="690" cy="350" r="7"/></g>
+                  <g fill="#b75332"><circle cx="210" cy="185" r="7"/><circle cx="382" cy="245" r="7"/><circle cx="530" cy="318" r="7"/></g>
+                  <g fill="#344844" font-size="10.5" font-weight="700"><text x="109" y="100">Large batch / offline</text><text x="545" y="255" text-anchor="end">Interactive</text><text x="676" y="337" text-anchor="end">Ultra-low latency</text></g>
+                  <g fill="#8b4b37" font-size="9.5"><text x="222" y="181">dominated</text><text x="394" y="241">dominated</text></g>
+                </g>
+              </svg>
+            </div>
+            <figcaption><strong>How to read:</strong> moving right gives each user faster output but normally reduces the number of concurrent requests that one system can serve. A point below the frontier wastes capability because another tested configuration is better on both dimensions.</figcaption>
+          </figure>
+
+          <figure class="chart-card">
+            <h3>Roofline: where the bottleneck moves</h3>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="swatch ochre"></span>Memory-bandwidth ceiling</span>
+              <span class="legend-item"><span class="swatch"></span>Compute ceiling</span>
+            </div>
+            <div class="chart-scroll" role="group" aria-label="Scrollable chart area">
+              <svg class="chart-svg" viewBox="0 0 760 450" role="img" aria-labelledby="roof-title roof-desc">
+                <title id="roof-title">Conceptual Roofline model</title>
+                <desc id="roof-desc">Attainable performance increases with operations per byte in the memory-bound region and flattens at the peak-compute ceiling.</desc>
+                <g font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+                  <text x="78" y="34" fill="#182321" font-size="13" font-weight="700">Attainable performance</text>
+                  <text x="78" y="52" fill="#596966" font-size="11">Conceptual operations per second; both axes shown as relative logarithmic scales</text>
+                  <g stroke="#e1e2dc" stroke-width="1">
+                    <line x1="78" y1="88" x2="704" y2="88"/><line x1="78" y1="158" x2="704" y2="158"/><line x1="78" y1="228" x2="704" y2="228"/><line x1="78" y1="298" x2="704" y2="298"/><line x1="78" y1="368" x2="704" y2="368"/>
+                    <line x1="78" y1="88" x2="78" y2="368"/><line x1="234" y1="88" x2="234" y2="368" stroke-dasharray="3 5"/><line x1="390" y1="88" x2="390" y2="368" stroke-dasharray="3 5"/><line x1="546" y1="88" x2="546" y2="368" stroke-dasharray="3 5"/><line x1="704" y1="88" x2="704" y2="368"/>
+                  </g>
+                  <path d="M90 350 L405 112" fill="none" stroke="#aa7b22" stroke-width="4" stroke-linecap="round"/>
+                  <path d="M405 112 L690 112" fill="none" stroke="#28594d" stroke-width="4" stroke-linecap="round"/>
+                  <line x1="405" y1="112" x2="405" y2="368" stroke="#596966" stroke-dasharray="5 5"/>
+                  <g fill="#596966" font-size="11" text-anchor="middle"><text x="78" y="389">Low</text><text x="390" y="389">Medium</text><text x="704" y="389">High</text><text x="391" y="424" fill="#344844" font-size="12" font-weight="700">Arithmetic intensity (operations per byte moved) →</text></g>
+                  <text x="34" y="229" fill="#344844" font-size="12" font-weight="700" text-anchor="middle" transform="rotate(-90 34 229)">Performance →</text>
+                  <g fill="#344844" font-size="11" font-weight="700"><text x="150" y="285">Memory-bound</text><text x="496" y="99">Compute-bound</text><text x="419" y="348" fill="#596966" font-size="9.5">ridge point</text></g>
+                  <g><circle cx="185" cy="290" r="8" fill="#b75332" stroke="#fffefa" stroke-width="3"/><text x="199" y="294" fill="#344844" font-size="10.5" font-weight="700">single-request decode</text><circle cx="342" cy="165" r="8" fill="#aa7b22" stroke="#fffefa" stroke-width="3"/><text x="356" y="169" fill="#344844" font-size="10.5" font-weight="700">batched decode</text><circle cx="545" cy="112" r="8" fill="#28594d" stroke="#fffefa" stroke-width="3"/><text x="545" y="136" fill="#344844" font-size="10.5" font-weight="700" text-anchor="middle">large prefill matmul</text></g>
+                </g>
+              </svg>
+            </div>
+            <figcaption><strong>How to read:</strong> batching can reuse weights across more tokens, increasing arithmetic intensity and moving decode toward better hardware utilisation. Once the compute ceiling is reached, more bandwidth alone no longer raises performance.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Prefill, decode, and service clocks</h2>
+          <p class="kicker">A credible benchmark separates prompt processing from output generation and reports the service constraint. “Tokens per second” without model, sequence lengths, concurrency, precision, quality, and hardware count is incomplete.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Element</th><th>What happens</th><th>Typical constraint</th><th>Relevant metrics</th><th>Common optimisation</th><th>Risk if misread</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Prefill</strong></td><td>Processes the input tokens in parallel and creates the initial KV cache.</td><td>Matrix compute, memory capacity, long-context attention.</td><td>Time to first token; input tokens/s; request length.</td><td>Chunked or disaggregated prefill, fused attention, quantisation.</td><td>A fast decode number can hide slow prompt ingestion.</td></tr>
+              <tr><td><strong>Decode</strong></td><td>Generates output autoregressively, usually one token per sequence per step.</td><td>HBM bandwidth, KV-cache reads, communication and scheduler overhead.</td><td>Time per output token; tokens/s/user; output throughput.</td><td>Continuous batching, paged KV cache, speculative decoding, multi-token prediction.</td><td>Maximum throughput may produce unacceptable per-user speed.</td></tr>
+              <tr><td><strong>End-to-end service</strong></td><td>Queues, routes, retrieves context, calls tools and returns the completed task.</td><td>Tail latency, network, model selection, retries and external services.</td><td>p50/p95/p99 latency; task success; cost per successful task.</td><td>Request routing, caching, cascades, parallel tools and workload shaping.</td><td>Model-only tests omit the bottleneck users experience.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Shape, sparsity, and hardware affinity</h2>
+          <p class="kicker">“Shape” means the dimensions and organisation of tensor operations—not a visual outline. Those dimensions determine tiling efficiency, memory use, routing, and inter-chip communication.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Design variable</th><th>Why it matters</th><th>Dense model</th><th>Mixture-of-experts model</th><th>Evidence required</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Matrix dimensions M × K × N</strong></td><td>Determine tile occupancy, padding, kernel selection and arithmetic intensity.</td><td>Usually regular and predictable.</td><td>Expert matrices may be smaller or irregular.</td><td>Kernel traces and achieved—not peak—throughput for the actual dimensions.</td></tr>
+              <tr><td><strong>Active parameters</strong></td><td>Drive arithmetic and weight movement per token.</td><td>Most layer parameters participate for each token.</td><td>Only selected experts participate, while all experts still require storage.</td><td>Published architecture plus measured memory and communication behaviour.</td></tr>
+              <tr><td><strong>Expert count and routing</strong></td><td>Affects load balance, all-to-all communication and stragglers.</td><td>Not applicable.</td><td>Central systems constraint; uneven routes leave devices idle.</td><td>Token-level expert distribution, tail load, placement and network topology.</td></tr>
+              <tr><td><strong>Attention and KV cache</strong></td><td>Sets state retained per request and memory traffic during decode.</td><td>Depends on head count, head dimension and attention variant.</td><td>Same issue, combined with expert-routing traffic.</td><td>Context length, concurrency, cache precision and eviction behaviour.</td></tr>
+              <tr><td><strong>Precision</strong></td><td>Lower-bit formats can reduce memory traffic and increase tensor throughput.</td><td>Potentially simpler calibration.</td><td>Expert and router sensitivity can differ.</td><td>Quality-preservation tests on the target workload; not speed alone.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note"><p><strong>Validated example:</strong> the DeepSeek-V3 technical report discloses 671 billion total parameters, 37 billion activated per token, Multi-head Latent Attention, an auxiliary-loss-free load-balancing strategy, and a multi-token prediction objective. Claims about the undisclosed internal shapes or sparsity of closed frontier models remain unverified unless their developers publish specifications or reproducible tests.</p></div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Optimisation levers and their hidden costs</h2>
+          <p class="kicker">No technique is universally beneficial. Each one targets a particular bottleneck and must be evaluated at an explicit quality and service level.</p>
+        </div>
+        <div class="phase-grid">
+          <article class="phase"><h3>Model and algorithm</h3><dl><dt>Levers</dt><dd>Distillation, sparse experts, latent attention, quantisation, multi-token prediction, speculative decoding and cascades.</dd><dt>Potential gain</dt><dd>Less active compute, less memory traffic, fewer sequential decode steps or better quality at a fixed budget.</dd><dt>Hidden cost</dt><dd>Calibration error, rejected drafts, quality loss, routing overhead, extra training complexity or hardware-specific affinity.</dd></dl></article>
+          <article class="phase"><h3>Runtime and scheduling</h3><dl><dt>Levers</dt><dd>Continuous batching, paged KV cache, prefix caching, chunked prefill, disaggregated serving and request routing.</dd><dt>Potential gain</dt><dd>Higher utilisation, lower fragmentation, better tail latency and different hardware for prefill versus decode.</dd><dt>Hidden cost</dt><dd>Queueing, operational complexity, network traffic, cache invalidation and failure recovery across more components.</dd></dl></article>
+          <article class="phase"><h3>Hardware and facility</h3><dl><dt>Levers</dt><dd>Accelerator choice, HBM, scale-up fabric, scale-out network, power density, liquid cooling and geographic placement.</dd><dt>Potential gain</dt><dd>More usable bandwidth, larger models per node, lower communication time and more work per provisioned megawatt.</dd><dt>Hidden cost</dt><dd>Vendor lock-in, stranded capacity, utilisation risk, long lead times, power constraints and financing exposure.</dd></dl></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>World models: optimisation through imagined experience</h2>
+          <p class="kicker">System optimisation is not only about making inference cheaper. A learned dynamics model can reduce the amount of expensive real-world interaction needed to improve behaviour—provided its errors are controlled.</p>
+        </div>
+        <div class="world-loop" aria-label="World model learning loop">
+          <div class="loop-node"><b>Observe</b><span>Collect sensory states, actions, outcomes and rewards from the real or simulated environment.</span></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node"><b>Learn dynamics</b><span>Encode a state and predict how actions change task-relevant latent variables.</span></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-node"><b>Imagine &amp; plan</b><span>Roll forward possible actions, estimate value, choose a policy, then re-observe and correct.</span></div>
+        </div>
+        <div class="formula">Sample efficiency = improvement in useful behaviour ÷ <span>new real interaction</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Approach</th><th>What is modelled</th><th>How it improves efficiency</th><th>Principal limitation</th><th>Validated example</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Classical model predictive control</strong></td><td>Known or estimated physical dynamics and constraints.</td><td>Plans over a horizon and repeatedly corrects with new observations.</td><td>Model mismatch, non-linearity, uncertainty and optimisation latency.</td><td>Industrial process control, robotics and trajectory planning.</td></tr>
+              <tr><td><strong>Learned latent world model</strong></td><td>Compressed predictive state, reward and continuation.</td><td>Trains behaviour using imagined rollouts rather than only fresh environment interaction.</td><td>Compounding error and policies that exploit simulator defects.</td><td>DreamerV3 across more than 150 tasks.</td></tr>
+              <tr><td><strong>Decision-relevant model</strong></td><td>Only latent features needed for value, policy and reward prediction.</td><td>Avoids reconstructing irrelevant visual detail.</td><td>May omit features that become important off-distribution.</td><td>MuZero in games and Atari.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note"><p><strong>Qualification:</strong> a world model does not eliminate data. It replaces some trial-and-error interaction with structure and reusable prediction. State estimation, calibration, model updates, and real-world validation remain necessary.</p></div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Claim validation matrix</h2>
+          <p class="kicker">The originating discussion is strongest on systems co-design and inference trade-offs. Large macro forecasts and claims about undisclosed model internals require a higher evidentiary bar.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Proposition</th><th>Assessment</th><th>Evidence-based interpretation</th><th>What would strengthen it</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Hardware–software–model co-design can create multiplicative gains.</strong></td><td><span class="status supported">Supported</span></td><td>Kernel fusion, quantisation, attention design, batching and topology-aware parallelism interact materially. The final gain remains workload-specific.</td><td>Same-model, same-quality, same-service-level before/after measurements.</td></tr>
+              <tr><td><strong>The throughput–interactivity curve is central to inference economics.</strong></td><td><span class="status supported">Supported</span></td><td>MLPerf separates offline throughput from server latency constraints; live benchmarking projects sweep configurations to expose Pareto frontiers.</td><td>Cost, power and tail-latency curves for the target workload.</td></tr>
+              <tr><td><strong>Decode is generally memory-bandwidth intensive.</strong></td><td><span class="status supported">Supported</span></td><td>Autoregressive decoding performs limited work per weight and KV-cache byte at low concurrency; batching raises arithmetic intensity.</td><td>Roofline and profiler data for the exact model, precision and batch.</td></tr>
+              <tr><td><strong>Several 2× improvements imply a 100× total gain.</strong></td><td><span class="status qualified">Illustrative</span></td><td>Multiplicative gains are possible, but interactions, overlap and new bottlenecks mean the arithmetic is not a general rule.</td><td>End-to-end ablations that isolate each contribution and preserve output quality.</td></tr>
+              <tr><td><strong>Closed frontier models have known relative sparsity.</strong></td><td><span class="status unverified">Unverified</span></td><td>Complete architecture details are not publicly disclosed. Industry estimates may be informed but should not be reported as established fact.</td><td>Developer specifications or independently reproducible architecture evidence.</td></tr>
+              <tr><td><strong>AI inference will exceed oil or represent several GDP points.</strong></td><td><span class="status unverified">Forecast</span></td><td>This is a high-conviction market hypothesis, not a validated present fact. Definitions of inference revenue and AI-enabled value also differ.</td><td>A transparent adoption, price, workload, power, productivity and double-counting model.</td></tr>
+              <tr><td><strong>World models can improve sample efficiency.</strong></td><td><span class="status supported">Supported</span></td><td>DreamerV3 and MuZero show that learned latent models can support planning and imagined learning across diverse benchmark domains.</td><td>Transfer evidence in costly, partially observed real-world environments.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>A reproducible benchmark protocol</h2>
+          <p class="kicker">The purpose of benchmarking is not to crown a permanent winner. It is to find the efficient operating region for a defined workload and to make the result reproducible.</p>
+        </div>
+        <div class="checklist">
+          <div>
+            <h3>Minimum experiment specification</h3>
+            <ol>
+              <li>Freeze model, checkpoint, tokenizer, quality target and decoding policy.</li>
+              <li>State input/output lengths and their distributions, not only averages.</li>
+              <li>Report hardware count, topology, precision, framework, kernels and versions.</li>
+              <li>Sweep concurrency and batching; do not compare one vendor’s optimum with another’s default.</li>
+              <li>Measure TTFT, TPOT, throughput, p95/p99 latency, power and error rate.</li>
+              <li>Calculate cost per successful task and per service-level-compliant request.</li>
+              <li>Publish configuration and date; rerun after material software changes.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Decision questions</h3>
+            <ul>
+              <li>What user delay is economically acceptable?</li>
+              <li>Is the workload prompt-heavy, decode-heavy, tool-heavy or multimodal?</li>
+              <li>Does quality remain constant after quantisation or model substitution?</li>
+              <li>Does utilisation survive real traffic variability and tail latency?</li>
+              <li>Which bottleneck appears next if the present one is removed?</li>
+              <li>What is the value of optionality versus a hardware-specific optimisation?</li>
+              <li>How much engineering and operational complexity is being capitalised off-book?</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Evidence base and further reading</h2>
+          <p class="kicker">Primary papers and benchmark documentation support the technical claims. The interview is retained as the originating discussion and is not treated as independent verification.</p>
+        </div>
+        <div class="source-grid">
+          <div class="source"><b><a href="https://mlcommons.org/2025/04/llm-inference-v5/">MLCommons · MLPerf Inference v5.0</a></b><p>Offline token throughput and server metrics including time to first token and time per output token.</p></div>
+          <div class="source"><b><a href="https://docs.mlcommons.org/inference/submission/">MLPerf Inference submission guide</a></b><p>Scenario, accuracy, latency, compliance and reproducibility requirements.</p></div>
+          <div class="source"><b><a href="https://arxiv.org/abs/2412.19437">DeepSeek-V3 Technical Report</a></b><p>Disclosed MoE architecture, active parameters, latent attention, load balancing and multi-token prediction.</p></div>
+          <div class="source"><b><a href="https://amcr.lbl.gov/departments/computer-science-department/ppan/roofline-performance-model/">Berkeley Lab · Roofline model</a></b><p>Arithmetic intensity, memory bandwidth, compute ceilings and bottleneck analysis.</p></div>
+          <div class="source"><b><a href="https://research.google/blog/looking-back-at-speculative-decoding/">Google Research · Speculative decoding</a></b><p>Parallel draft verification, identical output distributions under the stated method and reported workload-specific speed-ups.</p></div>
+          <div class="source"><b><a href="https://docs.vllm.ai/">vLLM documentation</a></b><p>Paged KV-cache management, continuous batching and serving-system implementation context.</p></div>
+          <div class="source"><b><a href="https://www.nature.com/articles/s41586-025-08744-2">DreamerV3 · Nature (2025)</a></b><p>World-model learning across more than 150 tasks with a common configuration and imagined rollouts.</p></div>
+          <div class="source"><b><a href="https://deepmind.google/blog/muzero-mastering-go-chess-shogi-and-atari-without-rules/">Google DeepMind · MuZero</a></b><p>Decision-relevant latent dynamics and planning without a supplied rules model.</p></div>
+          <div class="source"><b><a href="https://arxiv.org/abs/1803.10122">Ha &amp; Schmidhuber · World Models</a></b><p>Compressed spatiotemporal representations and policies trained inside learned simulated trajectories.</p></div>
+          <div class="source"><b><a href="https://inferencex.semianalysis.com/blog/inferencex-v2-nvidia-blackwell-vs-amd-vs-hopper">InferenceX v2</a></b><p>Current practical examples of full Pareto curves, prefill/decode disaggregation and configuration-sensitive inference performance.</p></div>
+          <div class="source"><b><a href="https://sequoiacap.com/podcast/dylan-patel-of-semianalysis-why-hardware-software-co-design-is-ais-real-100x/">Sequoia Capital interview with Dylan Patel</a></b><p>Originating discussion for the co-design, throughput–interactivity and market-size hypotheses evaluated in this report.</p></div>
+        </div>
+        <p class="fine" style="margin-top:1.2rem">Evidence cut-off: 17 August 2026. Vendor and benchmark results are configuration-specific. Revalidate current software versions, model checkpoints, hardware availability, costs and service requirements before making a technical or investment decision.</p>
+      </div>
+    </section>
+
+    <section class="bottom">
+      <div class="wrap bottom-box">
+        <h2>Bottom line</h2>
+        <div>
+          <p>The best AI system is not the one with the highest advertised peak. It is the lowest-risk configuration on the quality–latency–throughput–cost frontier for the task that matters.</p>
+          <p>Optimisation should therefore proceed in this order: define useful work, set the service level, profile the bottleneck, co-design across layers, measure the end-to-end result, and repeat as the software stack changes.</p>
+          <p class="fine" style="color:#cbd8d3">General research and educational material. This report does not recommend a model vendor, semiconductor, cloud provider, or investment.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap"><span>Research Library · AI systems</span><span>Public evidence and reproducible decision frameworks</span></div></footer>
+</body>
+</html>

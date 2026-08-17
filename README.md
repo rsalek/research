@@ -9,6 +9,7 @@ research/
 ├── index.html                         # Research library and report summaries
 ├── el-nino-commodities-2026.html     # Individual research report
 ├── energy-landscape-analysis-2026.html # Individual research report
+├── optimizing-ai-systems-2026.html   # Individual research report
 └── README.md
 ```
 
@@ -23,5 +24,6 @@ Each report is a standalone HTML file linked from `index.html`. Its library card
 
 - El Niño 2026–27: Commodity impact & UK investability
 - Energy Landscape Analysis: transmission framework for 2026–27
+- Optimizing AI Systems: from silicon to useful cognitive work
 
 Published research uses public sources and is general information, not personalised investment advice. Do not publish licensed sources, private paths, portfolio data, credentials, or internal working notes.
