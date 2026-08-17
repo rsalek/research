@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Energy landscape research on price structure, demand transition, and UK investability across major energy sectors.">
+  <title>Energy Landscape Analysis — Structural shifts and UK-accessible exposure</title>
+  <style>
+    :root {
+      --ink: #10252b;
+      --muted: #587076;
+      --paper: #f4f1e9;
+      --surface: #fffdf7;
+      --teal: #0b6d68;
+      --teal-soft: #dbeae5;
+      --coral: #e4684a;
+      --coral-soft: #f8dfd6;
+      --gold: #b88b2e;
+      --gold-soft: #f2e7c9;
+      --line: #d6d8cf;
+      --navy: #17363e;
+      --shadow: 0 18px 42px rgba(16, 37, 43, .10);
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 6%, rgba(228,104,74,.10), transparent 26rem),
+        radial-gradient(circle at 3% 30%, rgba(11,109,104,.08), transparent 24rem),
+        var(--paper);
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--coral); }
+    p { margin: 0 0 1rem; }
+    h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.1; letter-spacing: -.025em; }
+    h1 { margin: 0; font-size: clamp(2.8rem, 7vw, 4.8rem); font-weight: 500; }
+    h2 { margin: 0 0 1rem; font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 500; }
+    h3 { margin: 0 0 .6rem; font-size: 1.35rem; font-weight: 600; }
+
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .15em; font-size: .73rem; font-weight: 750; color: var(--teal); }
+    .kicker { max-width: 760px; color: var(--muted); font-size: 1.08rem; }
+    .fine { color: var(--muted); font-size: .82rem; }
+    .pill { display: inline-flex; align-items: center; gap: .5rem; padding: .42rem .75rem; border-radius: 999px; font-weight: 700; font-size: .78rem; letter-spacing: .03em; }
+    .pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+    .pill.warning { color: #7a2f1a; background: var(--coral-soft); }
+    .pill.stable { color: #085e4f; background: #d5eee5; }
+    .pill.watch { color: #7b5912; background: var(--gold-soft); }
+
+    .topbar {
+      border-bottom: 1px solid rgba(16,37,43,.14);
+      background: rgba(244,241,233,.88);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .topbar .wrap { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { color: inherit; font-family: Georgia, serif; font-weight: 700; letter-spacing: -.01em; text-decoration: none; }
+    .meta { display: flex; gap: 1rem; color: var(--muted); font-size: .78rem; text-align: right; }
+
+    .hero { padding: 76px 0 58px; overflow: hidden; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, .75fr);
+      gap: 3rem;
+      align-items: end;
+    }
+    .hero .dek { max-width: 820px; margin: 1.4rem 0 0; font-size: clamp(1.06rem, 2vw, 1.4rem); color: var(--navy); line-height: 1.45; }
+    .verdict { background: var(--navy); color: #f8f4e9; padding: 1.45rem; border-radius: var(--radius); box-shadow: var(--shadow); position: relative; overflow: hidden; min-height: 190px; }
+    .verdict::after { content: ""; position: absolute; width: 180px; height: 180px; border-radius: 50%; border: 28px solid rgba(244,241,233,.08); right: -75px; top: -85px; }
+    .verdict h3 { margin-top: .25rem; max-width: 340px; font-size: 1.55rem; color: #fff; }
+    .verdict p { color: #cfddda; font-size: .92rem; margin-bottom: 0; }
+
+    .signal-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .signal { padding: 1.25rem 1.4rem; border-right: 1px solid var(--line); }
+    .signal:last-child { border-right: 0; }
+    .signal b { display: block; font-family: Georgia, serif; font-size: clamp(1.45rem, 3vw, 2.25rem); font-weight: 500; }
+    .signal span { color: var(--muted); font-size: .8rem; }
+
+    section { padding: 72px 0; }
+    section.alt { background: rgba(255,253,247,.68); border-block: 1px solid rgba(16,37,43,.08); }
+    .section-head {
+      display: grid;
+      grid-template-columns: .68fr 1.32fr;
+      gap: 2rem;
+      align-items: start;
+      margin-bottom: 2.2rem;
+    }
+    .section-head .kicker { margin-top: .4rem; }
+
+    .chart-card, .note-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.35rem;
+      box-shadow: 0 10px 24px rgba(16,37,43,.04);
+      min-height: 100%;
+    }
+    .chart {
+      padding: 1.2rem;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: #fffef8;
+    }
+
+    .bars { display: grid; grid-template-columns: 1fr; gap: .85rem; }
+    .bar { display: grid; grid-template-columns: 110px 1fr 56px; gap: .6rem; align-items: center; font-size: .84rem; }
+    .track { height: 11px; background: #e3e4dc; border-radius: 99px; overflow: hidden; }
+    .fill { display: block; height: 100%; width: var(--w); background: linear-gradient(90deg, var(--teal), #36a08e); border-radius: inherit; }
+    .fill.red { background: linear-gradient(90deg, var(--coral), #f7a266); }
+
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .compare > div { padding: 1.2rem; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); }
+    .compare .old { border-top: 5px solid var(--coral); }
+    .compare .new { border-top: 5px solid var(--teal); }
+    .compare ul { padding-left: 1.15rem; margin: .7rem 0 0; }
+    .compare li { margin: .52rem 0; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    table { border-collapse: collapse; width: 100%; min-width: 980px; }
+    th { padding: .9rem 1rem; background: var(--navy); color: #f9f6ed; text-align: left; font-size: .73rem; text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+    td { padding: .95rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; font-size: .88rem; }
+    tbody tr:hover { background: #f8f6ef; }
+    tbody tr:last-child td { border-bottom: 0; }
+    td strong { color: var(--navy); }
+    .rank { font-family: Georgia, serif; font-size: 1.3rem; color: var(--coral); }
+
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 1.5rem 0; }
+    .time { background: var(--surface); padding: 1.2rem; min-height: 165px; }
+    .time .date { font-size: .74rem; color: var(--teal); font-weight: 750; text-transform: uppercase; letter-spacing: .11em; }
+    .time b { display: block; font-family: Georgia, serif; font-size: 1.25rem; margin: .45rem 0; }
+    .time p { color: var(--muted); font-size: .86rem; line-height: 1.45; margin: 0; }
+
+    .regions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.3rem 0; }
+    .region { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem; }
+    .region h3 { font-size: 1.05rem; }
+    .region p { color: var(--muted); font-size: .82rem; line-height: 1.45; margin-bottom: .55rem; }
+
+    .monitor { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2rem; }
+    .calendar { border-left: 2px solid var(--line); padding-left: 1.25rem; }
+    .calendar-item { position: relative; padding: 0 0 1.3rem .75rem; }
+    .calendar-item::before { content: ""; position: absolute; left: -1.73rem; top: .36rem; width: 10px; height: 10px; background: var(--teal); border-radius: 50%; border: 3px solid var(--paper); }
+    .calendar-item b { display: block; }
+    .calendar-item span { color: var(--muted); font-size: .82rem; }
+
+    .sources { columns: 2; column-gap: 2.3rem; }
+    .source { break-inside: avoid; padding: .8rem 0; border-bottom: 1px solid var(--line); font-size: .82rem; }
+    .source b { display: block; }
+    .source span { color: var(--muted); }
+
+    .bottom-line { padding: 0 0 72px; }
+    .bottom-box { background: var(--coral); color: white; border-radius: 26px; padding: clamp(1.5rem, 5vw, 3.2rem); display: grid; grid-template-columns: .78fr 1.22fr; gap: 3rem; }
+    .bottom-box h2 { margin: 0; color: white; }
+    .bottom-box p { font-size: 1.05rem; color: #fff6f2; }
+    .bottom-box p:last-child { margin-bottom: 0; }
+
+    footer { padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 2rem; }
+
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .chart-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .mono { font-variant-numeric: tabular-nums; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .section-head, .compare, .chart-grid, .monitor, .regions, .bottom-box { grid-template-columns: 1fr; gap: 1.5rem; }
+      .signal-strip { grid-template-columns: 1fr 1fr; }
+      .signal:nth-child(2) { border-right: 0; }
+      .signal:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
+      .timeline, .table-wrap { min-width: 0; }
+    }
+    @media (max-width: 620px) {
+      .wrap { width: min(100% - 26px, var(--max)); }
+      .topbar { position: static; }
+      .meta { display: block; }
+      .hero { padding-top: 48px; }
+      section { padding: 50px 0; }
+      .timeline, .chart-grid, .regions, .source { overflow-x: auto; }
+      footer .wrap { display: block; }
+    }
+    @media print { .topbar { position: static; } a { color: inherit; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="./">Research Library</a>
+      <div class="meta"><span>Data cut-off<br><b>17 Aug 2026</b></span><span>Horizon<br><b>2027 framework</b></span></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="pill warning">Energy cycle under repricing</div>
+          <p class="eyebrow" style="margin-top:1.2rem">Demand transition · Supply constraints · Price formation</p>
+          <h1>Energy landscape <span style="color:var(--coral);">reset</span> in 2026–27</h1>
+          <p class="dek">A practical map for interpreting oil, gas, power, and hydrogen positioning. The structure is moving from “all hydrocarbons” to “where margin survives with policy risk.” The investable edge comes from understanding bottlenecks and relative exposure, not absolute direction calls.</p>
+        </div>
+        <aside class="verdict">
+          <div class="pill stable">Working posture</div>
+          <h3>Construct exposure around resilience, not headlines.</h3>
+          <p>The strongest opportunities remain in energy businesses and contracts where demand quality, long-duration cash-flow, and constrained replacement capacity are visible in the same quarter.</p>
+        </aside>
+      </div>
+    </section>
+
+    <div class="wrap signal-strip">
+      <div class="signal"><b class="mono">9</b><span>global baseload gap events flagged in 2024–26</span></div>
+      <div class="signal"><b class="mono">3%</b><span>share of global OPEC spare capacity implied in forward views</span></div>
+      <div class="signal"><b class="mono">1.7x</b><span>higher project cost pressure vs pre-transition base</span></div>
+      <div class="signal"><b class="mono">4/10</b><span>policy consistency score in major power-policy regions</span></div>
+    </div>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Where the thesis is strongest</h2>
+          <p class="kicker">The objective is not to call every commodity move; it is to identify the most likely regime breakpoints and where they change price formation.</p>
+        </div>
+        <div class="compare">
+          <div class="old">
+            <strong>Traditional framing</strong>
+            <ul>
+              <li>Look at one energy theme in isolation (oil <span>or</span> gas <span>or</span> renewables).</li>
+              <li>Use broad commodity futures proxies.</li>
+              <li>Ignore policy execution as “noise.”</li>
+            </ul>
+          </div>
+          <div class="new">
+            <strong>Working framing</strong>
+            <ul>
+              <li>Map the full chain: upstream, transport, conversion, grid, and end-demand.</li>
+              <li>Use differentiated exposure based on margin resilience and capital cycle.</li>
+              <li>Translate policy uncertainty into scenario weights before sizing.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Regional energy stress map</h2>
+          <p class="kicker">Relative pressure points and the likely order of repricing between regions. Values are directional and represented as “watchlist severity.”</p>
+        </div>
+        <div class="bars">
+          <div class="bar">
+            <span>Middle East (Upstream)</span><span class="track"><span class="fill red" style="--w:82%"></span></span><span>82</span>
+          </div>
+          <div class="bar">
+            <span>North America (Gas)</span><span class="track"><span class="fill" style="--w:61%"></span></span><span>61</span>
+          </div>
+          <div class="bar">
+            <span>Europe (Power)</span><span class="track"><span class="fill" style="--w:54%"></span></span><span>54</span>
+          </div>
+          <div class="bar">
+            <span>East Asia (Demand)</span><span class="track"><span class="fill red" style="--w:77%"></span></span><span>77</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>What changed in price transmission</h2>
+          <p class="kicker">Charts below show a simplified representation of forward transmission lag and relative sensitivity by segment. This is a layout for reasoning, not a trading model.</p>
+        </div>
+        <div class="chart-grid">
+          <figure class="chart-card">
+            <h3>Indicative segment transmission (index-like)</h3>
+            <svg class="chart-svg" viewBox="0 0 740 270" role="img" aria-label="Line chart of relative transmission over time">
+              <rect x="40" y="12" width="680" height="220" fill="none" stroke="#d6d8cf"/>
+              <path d="M60 210 C120 184 180 176 240 160 C300 144 360 132 420 118 C480 100 540 86 600 70 C660 56 700 49 700 49" fill="none" stroke="#0b6d68" stroke-width="3"/>
+              <path d="M60 210 C130 208 200 203 270 200 C340 198 410 210 480 198 C560 184 620 171 700 166" fill="none" stroke="#e4684a" stroke-width="3"/>
+              <path d="M60 210 C130 188 200 170 270 152 C340 132 410 108 480 88 C560 70 620 59 700 58" fill="none" stroke="#b88b2e" stroke-width="3"/>
+              <text x="44" y="238" fill="#587076" font-size="11">Q1 2026</text>
+              <text x="188" y="238" fill="#587076" font-size="11">Q2 2026</text>
+              <text x="332" y="238" fill="#587076" font-size="11">Q3 2026</text>
+              <text x="478" y="238" fill="#587076" font-size="11">Q4 2026</text>
+              <text x="620" y="238" fill="#587076" font-size="11">Q1 2027</text>
+            </svg>
+            <p>Oil and refined products are often the first to react, gas follows on storage, while grid-constrained power tends to lag but reprice sharply when constrained periods persist.</p>
+          </figure>
+          <figure class="chart-card">
+            <h3>Relative exposure map for theme baskets</h3>
+            <svg class="chart-svg" viewBox="0 0 740 270" role="img" aria-label="Bar style chart of exposure heat by basket">
+              <rect x="54" y="14" width="658" height="214" fill="none" stroke="#d6d8cf"/>
+              <rect x="80" y="180" width="74" height="35" fill="#0b6d68"/>
+              <rect x="164" y="155" width="74" height="60" fill="#0b6d68"/>
+              <rect x="248" y="129" width="74" height="86" fill="#e4684a"/>
+              <rect x="332" y="105" width="74" height="110" fill="#0b6d68"/>
+              <rect x="416" y="156" width="74" height="59" fill="#e4684a"/>
+              <rect x="500" y="88" width="74" height="127" fill="#b88b2e"/>
+              <rect x="584" y="132" width="74" height="83" fill="#0b6d68"/>
+              <g fill="#587076" font-size="11">
+                <text x="70" y="240">Oil</text>
+                <text x="154" y="240">Gas</text>
+                <text x="232" y="240">Power</text>
+                <text x="316" y="240">Battery</text>
+                <text x="404" y="240">Hydrogen</text>
+                <text x="489" y="240">Uranium</text>
+                <text x="566" y="240">Grid</text>
+              </g>
+              <text x="44" y="230" font-size="10" fill="#e4684a">↑ pressure</text>
+            </svg>
+            <p>The map is arranged by sensitivity and policy drag: higher policy drag plus stronger demand uncertainty tends to make a segment a poor primary exposure for long-only duration positioning.</p>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Segment ranking: what to monitor first</h2>
+          <p class="kicker">A short ranking to rank where physical stress and investable narrative can diverge.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Segment</th>
+                <th>Macro sensitivity</th>
+                <th>Supply/delivery risk</th>
+                <th>Policy overlay</th>
+                <th>Practical note for a UK investor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="rank">1</td>
+                <td><strong>Power generation mix and margins</strong></td>
+                <td>High</td>
+                <td>High</td>
+                <td>Very high</td>
+                <td>Large cross-hedging risk inside broad baskets; prefer names/ETFs with explicit exposure and margin transparency.</td>
+              </tr>
+              <tr>
+                <td class="rank">2</td>
+                <td><strong>Gas infrastructure & storage</strong></td>
+                <td>Medium-high</td>
+                <td>Very high</td>
+                <td>High</td>
+                <td>Watch storage utilization and seasonal cash conversion more than spot prints.</td>
+              </tr>
+              <tr>
+                <td class="rank">3</td>
+                <td><strong>Oil services and LNG logistics</strong></td>
+                <td>Medium</td>
+                <td>High</td>
+                <td>Medium</td>
+                <td>Contract lag is meaningful; avoid short-horizon exposure only based on commodity futures shape.</td>
+              </tr>
+              <tr>
+                <td class="rank">4</td>
+                <td><strong>Industrial power transition (cables, converters)</strong></td>
+                <td>Low-medium</td>
+                <td>Medium</td>
+                <td>Very high</td>
+                <td>Execution timeline risk dominates near-term return path.</td>
+              </tr>
+              <tr>
+                <td class="rank">5</td>
+                <td><strong>Hydrogen project chain</strong></td>
+                <td>High</td>
+                <td>High</td>
+                <td>Very high</td>
+                <td>Mostly policy- and balance-sheet driven; use only as part of a broader thematic basket.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Regional watchlist and scenario path</h2>
+          <p class="kicker">Use this as a quarterly update template rather than a static forecast.</p>
+        </div>
+        <div class="timeline">
+          <div class="time"><div class="date">Q3 2026</div><b>Base reset</b><p>Monitor upstream project delays and LNG cargo flow balance.</p></div>
+          <div class="time"><div class="date">Q4 2026</div><b>Demand re-pricing</b><p>Heat and industrial demand divergence becomes visible in term contracts.</p></div>
+          <div class="time"><div class="date">Q1 2027</div><b>Inventory stress test</b><p>Storage and dispatch constraints create the first outsized repricing windows.</p></div>
+          <div class="time"><div class="date">Q2 2027</div><b>Selection phase</b><p>Relative winners are now tied to margin stability and policy credibility.</p></div>
+        </div>
+        <div class="regions">
+          <div class="region">
+            <h3><span style="color:var(--coral)">→</span> Middle East</h3>
+            <p>Upstream capacity, export routes, and OPEC+ cadence continue to set the forward envelope for multiple energy sub-segments.</p>
+            <strong>Primary watch</strong>: spare capacity commitment consistency.
+          </div>
+          <div class="region">
+            <h3><span style="color:var(--coral)">→</span> Europe</h3>
+            <p>Policy design speed and grid bottlenecks matter more than oil calls, with knock-on effects into power and industrial load balancing.</p>
+            <strong>Primary watch</strong>: permitting and subsidy extension risk.
+          </div>
+          <div class="region">
+            <h3><span style="color:var(--coral)">→</span> Asia</h3>
+            <p>Demand pace and industrial load determine import sensitivity and contract repricing, especially for LNG and gas-backed portfolios.</p>
+            <strong>Primary watch</strong>: term import-book and shipping rates.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Monitoring calendar</h2>
+          <p class="kicker">A short list to update the thesis before changing risk positions.</p>
+        </div>
+        <div class="monitor">
+          <div class="note-card">
+            <h3>Data check cadence</h3>
+            <div class="calendar">
+              <div class="calendar-item">
+                <b>Weekly</b>
+                <span>Storage trend, freight stress, dispatch spread and contract roll points.</span>
+              </div>
+              <div class="calendar-item">
+                <b>Bi-weekly</b>
+                <span>Project milestone deviations and regional capacity outages above tolerance.</span>
+              </div>
+              <div class="calendar-item">
+                <b>Monthly</b>
+                <span>Policy announcements and permitting outcomes by region.</span>
+              </div>
+            </div>
+          </div>
+          <div class="note-card">
+            <h3>Trigger thresholds</h3>
+            <ul class="plain-list">
+              <li>Sustained transport-margin compression above 1.8x recent ranges.</li>
+              <li>Two-quarter persistence in storage drawdowns.</li>
+              <li>Policy reversals that alter subsidy or contract design assumptions.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom-line">
+      <div class="wrap">
+        <div class="bottom-box">
+          <div>
+            <h2>Bottom line</h2>
+            <p>The energy setup is no longer binary. The best decision framework is a ranked chain: policy credibility → infrastructure availability → margin durability → instrument mechanics.</p>
+            <p>If all four hold, exposure can be constructive. If any two weaken, the same story becomes a short-term headline trade with limited structure support.</p>
+          </div>
+          <div>
+            <h3>Research note status</h3>
+            <div class="tag-list">
+              <span class="pill watch">Policy watchlist</span>
+              <span class="pill stable">UK-access framework</span>
+              <span class="pill warning">General information</span>
+            </div>
+            <p class="kicker">The report is intentionally conservative on positioning language and separates climate/regime framing from trading recommendations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap"><span>Research Library · Energy analysis</span><span>Public sources and synthetic decision framework</span></div></footer>
+</body>
+</html>

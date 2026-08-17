@@ -8,6 +8,7 @@ Public, evidence-backed thematic research published at <https://rsalek.github.io
 research/
 ├── index.html                         # Research library and report summaries
 ├── el-nino-commodities-2026.html     # Individual research report
+├── energy-landscape-analysis-2026.html # Individual research report
 └── README.md
 ```
 
@@ -17,5 +18,10 @@ Each report is a standalone HTML file linked from `index.html`. Its library card
 - data cut-off;
 - a concise decision-oriented summary;
 - an `Open report` link and GitHub source link.
+
+## Added reports
+
+- El Niño 2026–27: Commodity impact & UK investability
+- Energy Landscape Analysis: transmission framework for 2026–27
 
 Published research uses public sources and is general information, not personalised investment advice. Do not publish licensed sources, private paths, portfolio data, credentials, or internal working notes.
