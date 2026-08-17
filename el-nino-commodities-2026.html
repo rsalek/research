@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Evidence-backed assessment of the 2026-27 El Niño, historical commodity impacts and UK ISA/SIPP investability.">
+  <title>El Niño 2026–27 — Commodity impact & UK investability</title>
+  <style>
+    :root {
+      --ink: #10252b;
+      --muted: #587076;
+      --paper: #f4f1e9;
+      --surface: #fffdf7;
+      --teal: #0b6d68;
+      --teal-soft: #dbeae5;
+      --coral: #e4684a;
+      --coral-soft: #f8dfd6;
+      --gold: #b88b2e;
+      --gold-soft: #f2e7c9;
+      --line: #d6d8cf;
+      --navy: #17363e;
+      --shadow: 0 18px 42px rgba(16, 37, 43, .10);
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 88% 7%, rgba(228,104,74,.10), transparent 28rem),
+        radial-gradient(circle at 2% 29%, rgba(11,109,104,.08), transparent 25rem),
+        var(--paper);
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--teal); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--coral); }
+    p { margin: 0 0 1rem; }
+    h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.08; letter-spacing: -.025em; }
+    h1 { margin: 0; font-size: clamp(3.2rem, 7vw, 6.8rem); font-weight: 500; }
+    h2 { margin: 0 0 1rem; font-size: clamp(2rem, 4vw, 3.45rem); font-weight: 500; }
+    h3 { margin: 0 0 .65rem; font-size: 1.35rem; font-weight: 600; }
+
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .15em; font-size: .73rem; font-weight: 750; color: var(--teal); }
+    .kicker { max-width: 760px; color: var(--muted); font-size: 1.12rem; }
+    .fine { color: var(--muted); font-size: .82rem; }
+    .mono { font-variant-numeric: tabular-nums; }
+    .pill { display: inline-flex; align-items: center; gap: .5rem; padding: .42rem .75rem; border-radius: 999px; font-weight: 700; font-size: .78rem; letter-spacing: .03em; }
+    .pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+    .pill.live { color: #085e4f; background: #d5eee5; }
+    .pill.watch { color: #7b5912; background: var(--gold-soft); }
+    .pill.pass { color: #93412e; background: var(--coral-soft); }
+
+    .topbar { border-bottom: 1px solid rgba(16,37,43,.14); background: rgba(244,241,233,.88); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 10; }
+    .topbar .wrap { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .brand { color: inherit; font-family: Georgia, serif; font-weight: 700; letter-spacing: -.01em; text-decoration: none; }
+    .meta { display: flex; gap: 1rem; color: var(--muted); font-size: .78rem; text-align: right; }
+
+    .hero { padding: 76px 0 58px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, .75fr); gap: 4rem; align-items: end; }
+    .hero h1 span { color: var(--coral); }
+    .hero .dek { max-width: 800px; margin: 1.6rem 0 0; font-size: clamp(1.16rem, 2vw, 1.5rem); color: var(--navy); line-height: 1.45; }
+    .verdict { background: var(--navy); color: #f8f4e9; padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .verdict::after { content: ""; position: absolute; width: 160px; height: 160px; border-radius: 50%; border: 28px solid rgba(244,241,233,.08); right: -75px; top: -75px; }
+    .verdict .eyebrow { color: #8cd3c6; }
+    .verdict strong { display: block; font-family: Georgia, serif; font-size: 1.8rem; line-height: 1.12; margin: .6rem 0 .75rem; max-width: 300px; }
+    .verdict p { color: #cfddda; font-size: .92rem; margin-bottom: 0; }
+
+    .signal-strip { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .signal { padding: 1.25rem 1.4rem; border-right: 1px solid var(--line); }
+    .signal:last-child { border-right: 0; }
+    .signal b { display: block; font-family: Georgia, serif; font-size: clamp(1.55rem, 3vw, 2.35rem); font-weight: 500; }
+    .signal span { color: var(--muted); font-size: .8rem; }
+
+    section { padding: 76px 0; }
+    section.alt { background: rgba(255,253,247,.68); border-block: 1px solid rgba(16,37,43,.08); }
+    .section-head { display: grid; grid-template-columns: .65fr 1.35fr; gap: 2rem; align-items: start; margin-bottom: 2.5rem; }
+    .section-head .kicker { margin-top: .4rem; }
+
+    .callout { border-left: 5px solid var(--coral); padding: 1.2rem 1.4rem; background: var(--coral-soft); border-radius: 0 14px 14px 0; }
+    .callout strong { font-family: Georgia, serif; font-size: 1.2rem; }
+    .callout p:last-child { margin: .25rem 0 0; }
+
+    .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; margin: 2rem 0; }
+    .time { background: var(--surface); padding: 1.35rem; min-height: 190px; }
+    .time .date { font-size: .74rem; color: var(--teal); font-weight: 750; text-transform: uppercase; letter-spacing: .11em; }
+    .time b { display: block; font-family: Georgia, serif; font-size: 1.3rem; margin: .45rem 0; }
+    .time p { color: var(--muted); font-size: .88rem; line-height: 1.45; margin: 0; }
+
+    .prob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+    .chart, .note-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.5rem; box-shadow: 0 10px 24px rgba(16,37,43,.04); }
+    .bar-row { display: grid; grid-template-columns: 105px 1fr 48px; gap: .8rem; align-items: center; margin: .85rem 0; font-size: .83rem; }
+    .track { height: 11px; background: #e3e4dc; border-radius: 99px; overflow: hidden; }
+    .fill { display: block; height: 100%; width: var(--w); background: linear-gradient(90deg, var(--teal), #36a08e); border-radius: inherit; }
+    .fill.hot { background: linear-gradient(90deg, var(--coral), #f7a266); }
+
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .compare > div { padding: 1.4rem; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); }
+    .compare .old { border-top: 5px solid var(--coral); }
+    .compare .new { border-top: 5px solid var(--teal); }
+    .compare ul, .plain-list { padding-left: 1.15rem; margin: .8rem 0 0; }
+    .compare li, .plain-list li { margin: .5rem 0; }
+
+    .chain { display: grid; grid-template-columns: repeat(6, 1fr); align-items: stretch; gap: .65rem; margin: 2rem 0 1.2rem; }
+    .chain-item { position: relative; padding: 1rem .8rem; min-height: 118px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); }
+    .chain-item::after { content: "→"; position: absolute; right: -.58rem; top: 42px; color: var(--coral); font-weight: 800; z-index: 2; }
+    .chain-item:last-child::after { display: none; }
+    .chain-item em { display: block; font-style: normal; color: var(--teal); font-size: .68rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .chain-item b { display: block; line-height: 1.25; margin-top: .45rem; font-size: .9rem; }
+    .chain-item small { color: var(--muted); font-size: .72rem; line-height: 1.35; display: block; margin-top: .35rem; }
+
+    .table-wrap { min-width: 0; max-width: 100%; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    table { border-collapse: collapse; width: 100%; min-width: 880px; }
+    th { padding: .9rem 1rem; background: var(--navy); color: #f9f6ed; text-align: left; font-size: .73rem; text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+    td { padding: 1rem; border-bottom: 1px solid var(--line); vertical-align: top; font-size: .88rem; }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: #f8f6ef; }
+    td strong { color: var(--navy); }
+    .rank { font-family: Georgia, serif; font-size: 1.35rem; color: var(--coral); }
+    .tag { display: inline-block; padding: .2rem .5rem; border-radius: 6px; background: var(--teal-soft); color: var(--teal); font-size: .7rem; font-weight: 750; white-space: nowrap; }
+    .tag.mid { background: var(--gold-soft); color: #765513; }
+    .tag.low { background: var(--coral-soft); color: #8c402f; }
+
+    .region-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
+    .region { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.15rem; }
+    .region .arrow { font-size: 1.25rem; color: var(--coral); margin-right: .3rem; }
+    .region h3 { font-size: 1.12rem; }
+    .region p { color: var(--muted); font-size: .83rem; line-height: 1.45; margin-bottom: .55rem; }
+    .region b { font-size: .76rem; }
+
+    .cocoa { background: var(--navy); color: #f7f2e8; border-radius: 26px; padding: clamp(1.5rem, 5vw, 3.5rem); display: grid; grid-template-columns: .8fr 1.2fr; gap: 3rem; box-shadow: var(--shadow); }
+    .cocoa h2 { color: #fff9ef; }
+    .cocoa .eyebrow { color: #9bd9cd; }
+    .cocoa p { color: #cfddda; }
+    .price-rail { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.16); border-radius: 14px; overflow: hidden; margin: 1.2rem 0; }
+    .price-rail div { padding: 1rem; background: rgba(255,255,255,.05); }
+    .price-rail b { display: block; font-family: Georgia, serif; color: #fff; font-size: 1.7rem; }
+    .price-rail span { color: #aebfbc; font-size: .7rem; }
+    .proof-list { counter-reset: proof; display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+    .proof-list div { position: relative; padding: .75rem .75rem .75rem 2.5rem; background: rgba(255,255,255,.07); border-radius: 10px; color: #dce6e3; font-size: .82rem; }
+    .proof-list div::before { counter-increment: proof; content: counter(proof); position: absolute; left: .7rem; top: .65rem; width: 1.25rem; height: 1.25rem; border-radius: 50%; display: grid; place-items: center; background: var(--coral); color: white; font-size: .7rem; font-weight: 800; }
+
+    .scenario-grid { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 1rem; }
+    .scenario { border-radius: var(--radius); padding: 1.4rem; border: 1px solid var(--line); background: var(--surface); }
+    .scenario.base { border-top: 6px solid var(--teal); }
+    .scenario.up { border-top: 6px solid var(--coral); }
+    .scenario.down { border-top: 6px solid #8a9699; }
+    .scenario .prob { font-family: Georgia, serif; font-size: 2.4rem; line-height: 1; margin: .7rem 0; }
+    .scenario p, .scenario li { color: var(--muted); font-size: .85rem; }
+
+    .gates { display: grid; grid-template-columns: repeat(5, 1fr); gap: .8rem; margin: 1.5rem 0; }
+    .gate { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; }
+    .gate b { display: block; font-family: Georgia, serif; font-size: 1.05rem; margin-bottom: .35rem; }
+    .gate span { color: var(--muted); font-size: .76rem; line-height: 1.4; display: block; }
+
+    .instrument-note { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+    .instrument-note > div { border-radius: 14px; padding: 1.2rem; }
+    .instrument-note .targeted { background: var(--teal-soft); }
+    .instrument-note .broad { background: var(--gold-soft); }
+    .instrument-note p { font-size: .87rem; margin: .4rem 0 0; }
+
+    .monitor { display: grid; grid-template-columns: .8fr 1.2fr; gap: 2rem; }
+    .calendar { border-left: 2px solid var(--line); padding-left: 1.25rem; }
+    .calendar-item { position: relative; padding: 0 0 1.4rem .75rem; }
+    .calendar-item::before { content: ""; position: absolute; left: -1.72rem; top: .35rem; width: 10px; height: 10px; background: var(--teal); border-radius: 50%; border: 3px solid var(--paper); }
+    .calendar-item b { display: block; }
+    .calendar-item span { color: var(--muted); font-size: .82rem; }
+
+    .sources { columns: 2; column-gap: 2.5rem; }
+    .source { break-inside: avoid; padding: .8rem 0; border-bottom: 1px solid var(--line); font-size: .82rem; }
+    .source b { display: block; }
+    .source span { color: var(--muted); }
+
+    .bottom-line { padding: 0 0 76px; }
+    .bottom-box { background: var(--coral); color: white; border-radius: 26px; padding: clamp(1.7rem, 5vw, 3.8rem); display: grid; grid-template-columns: .75fr 1.25fr; gap: 3rem; }
+    .bottom-box h2 { margin: 0; color: white; }
+    .bottom-box p { font-size: 1.08rem; color: #fff6f2; }
+    .bottom-box p:last-child { margin-bottom: 0; }
+    footer { padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .78rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 2rem; }
+
+    .hero-grid > *, .section-head > *, .prob-grid > *, .compare > *, .cocoa > *,
+    .scenario-grid > *, .instrument-note > *, .monitor > *, .bottom-box > *,
+    .chart, .note-card { min-width: 0; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .section-head, .prob-grid, .cocoa, .monitor, .bottom-box { grid-template-columns: 1fr; gap: 1.5rem; }
+      .signal-strip { grid-template-columns: 1fr 1fr; }
+      .signal:nth-child(2) { border-right: 0; }
+      .signal:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .timeline, .region-grid { grid-template-columns: 1fr 1fr; }
+      .chain { grid-template-columns: repeat(3, 1fr); }
+      .chain-item:nth-child(3)::after { display: none; }
+      .scenario-grid { grid-template-columns: 1fr; }
+      .gates { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .wrap { width: min(100% - 26px, var(--max)); }
+      .topbar { position: static; }
+      .topbar .wrap { align-items: flex-start; padding-block: .8rem; }
+      .meta { display: block; }
+      .hero { padding-top: 48px; }
+      section { padding: 55px 0; }
+      .timeline, .compare, .region-grid, .instrument-note, .price-rail, .proof-list { grid-template-columns: 1fr; }
+      .chain { display: block; }
+      .chain-item { min-height: 0; margin-bottom: .7rem; }
+      .chain-item::after { content: "↓"; left: 50%; right: auto; top: auto; bottom: -.8rem; }
+      .chain-item:nth-child(3)::after { display: block; }
+      .chain-item:last-child::after { display: none; }
+      .gates { grid-template-columns: 1fr; }
+      .sources { columns: 1; }
+      footer .wrap { display: block; }
+    }
+
+    @media print {
+      body { background: white; }
+      .topbar { position: static; }
+      a { color: inherit; }
+      section { break-inside: avoid; }
+      .chart, .note-card, .verdict, .cocoa { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="./">Research Library</a>
+      <div class="meta"><span>Data cut-off<br><b>14 Aug 2026</b></span><span>Horizon<br><b>to May 2027</b></span></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="pill live">El Niño active</div>
+          <p class="eyebrow" style="margin-top:1.4rem">Climate consensus · crop transmission · UK access</p>
+          <h1>The event is here.<br><span>The trade is not.</span></h1>
+          <p class="dek">A very strong El Niño is likely to peak in late 2026. The investable opportunity depends on where the weather lands, when it hits the crop, and whether inventories are tight enough to turn a harvest loss into price.</p>
+        </div>
+        <aside class="verdict">
+          <div class="eyebrow">Current posture</div>
+          <strong>Watchlist. Wait for physical proof.</strong>
+          <p>Agriculture/softs, coffee and sugar are the practical UK candidates. Cocoa is a high-convexity special situation—not a simple replay of 2024.</p>
+        </aside>
+      </div>
+    </div>
+
+    <div class="wrap signal-strip" aria-label="Key forecast signals">
+      <div class="signal"><b class="mono">100%</b><span>NOAA El Niño probability through Jan–Mar 2027</span></div>
+      <div class="signal"><b class="mono">+2.66°C</b><span>median RONI peak, Oct–Dec 2026</span></div>
+      <div class="signal"><b class="mono">69%</b><span>chance Oct–Dec reaches at least +2.5°C</span></div>
+      <div class="signal"><b class="mono">82%</b><span>El Niño probability in Mar–May 2027</span></div>
+    </div>
+
+    <section id="status">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">01 · Timing & consensus</p><h2>Not a 2027 onset</h2></div>
+          <p class="kicker">NOAA, BoM, JMA, WMO and IRI agree that El Niño began in 2026 and is strengthening. The uncertainty has moved from <em>whether</em> it arrives to <em>where</em> the strongest weather anomalies appear.</p>
+        </div>
+
+        <div class="callout">
+          <strong>Direct answer:</strong>
+          <p>Operational onset was May–June 2026. The highest-probability peak is October–December 2026. If it weakens in boreal spring, a sensible working duration is about 10–12 months, but no agency gives an exact ending month.</p>
+        </div>
+
+        <div class="timeline" aria-label="El Niño forecast timeline">
+          <div class="time"><span class="date">May–Jun 2026</span><b>Onset</b><p>Ocean and atmosphere coupled; NOAA and BoM declared the event established.</p></div>
+          <div class="time"><span class="date">Aug–Oct</span><b>Rapid strengthening</b><p>NOAA median RONI +2.14°C; 75% probability of very strong conditions.</p></div>
+          <div class="time"><span class="date">Oct–Dec</span><b>Most likely peak</b><p>Median +2.66°C; 95% probability of very strong conditions.</p></div>
+          <div class="time"><span class="date">Mar–May 2027</span><b>Likely decay</b><p>Median still +0.83°C; 82% probability that El Niño remains present.</p></div>
+        </div>
+
+        <div class="prob-grid">
+          <div class="chart">
+            <h3>Official NOAA probability path</h3>
+            <p class="fine">Event probability in teal; probability of very strong RONI ≥ +2.0°C in coral.</p>
+            <div class="bar-row"><span>Jul–Sep</span><div class="track"><i class="fill" style="--w:100%"></i></div><b>100%</b></div>
+            <div class="bar-row"><span>Oct–Dec</span><div class="track"><i class="fill" style="--w:100%"></i></div><b>100%</b></div>
+            <div class="bar-row"><span>very strong</span><div class="track"><i class="fill hot" style="--w:95%"></i></div><b>95%</b></div>
+            <div class="bar-row"><span>Jan–Mar</span><div class="track"><i class="fill" style="--w:100%"></i></div><b>100%</b></div>
+            <div class="bar-row"><span>Mar–May</span><div class="track"><i class="fill" style="--w:82%"></i></div><b>82%</b></div>
+            <p class="fine">Source: <a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/probabilities/">NOAA CPC official RONI tables</a>, issued 13 Aug 2026.</p>
+          </div>
+          <div class="note-card">
+            <h3>What “consensus” actually means</h3>
+            <ul class="plain-list">
+              <li><b>NOAA:</b> more than 90% chance of a very strong event in northern autumn/winter.</li>
+              <li><b>BoM:</b> firmly established, likely to peak in southern late spring/summer and persist into autumn 2027.</li>
+              <li><b>JMA:</b> 100% probability through boreal winter; model magnitude comparable with 1997.</li>
+              <li><b>IRI:</b> 23 of 26 models reach very strong at peak; objective ensemble remains above 90% through Mar–May.</li>
+            </ul>
+            <p class="fine">Metrics differ: NOAA uses RONI, JMA Niño 3, while other centres often use Niño 3.4. The numerical levels are not perfectly interchangeable.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="transcript">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">02 · Transcript audit</p><h2>Directionally right, too deterministic</h2></div>
+          <p class="kicker">The Bloomberg transcript was a useful thesis prompt. Current primary evidence confirms the exceptional ENSO setup, but not a guaranteed global commodity shock—and especially not a one-factor cocoa replay.</p>
+        </div>
+        <div class="compare">
+          <div class="old">
+            <p class="eyebrow">What the transcript implied</p>
+            <h3>A powerful event drives widespread costs</h3>
+            <ul>
+              <li>Pacific warming above 2°C by year-end.</li>
+              <li>West African cocoa already losing yield.</li>
+              <li>Panama drought pushes LNG and energy prices.</li>
+              <li>Local crop losses translate into global inflation.</li>
+            </ul>
+          </div>
+          <div class="new">
+            <p class="eyebrow">What is verified now</p>
+            <h3>The climate signal is strong; the price signal is conditional</h3>
+            <ul>
+              <li>Official forecasts now support a very strong late-2026 peak.</li>
+              <li>ICCO says the 2023/24 cocoa deficit was not directly attributable to El Niño.</li>
+              <li>Panama and energy are second-order, multi-causal channels.</li>
+              <li>Five of six post-1980 El Niño episodes in a World Bank event study had flat or falling agricultural prices.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="transmission">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">03 · Transmission</p><h2>Six gates between ocean and return</h2></div>
+          <p class="kicker">The event label is only the first gate. Every link can amplify, offset or break the trade.</p>
+        </div>
+        <div class="chain" aria-label="Event to investment return transmission map">
+          <div class="chain-item"><em>1 · Climate</em><b>ENSO strength</b><small>Already public and highly certain</small></div>
+          <div class="chain-item"><em>2 · Region</em><b>Rain & heat</b><small>Teleconnection is probabilistic</small></div>
+          <div class="chain-item"><em>3 · Crop</em><b>Critical window</b><small>Stage and timing determine damage</small></div>
+          <div class="chain-item"><em>4 · Balance</em><b>Output & stocks</b><small>Offsets and policy can absorb loss</small></div>
+          <div class="chain-item"><em>5 · Market</em><b>Futures curve</b><small>Forecast may be priced before harvest</small></div>
+          <div class="chain-item"><em>6 · Product</em><b>ETC return</b><small>Roll, swap, FX and spread intervene</small></div>
+        </div>
+        <p class="fine">Published crop evidence makes the same point: El Niño improves global mean soybean yield in some estimates, while maize, rice and wheat show mixed global averages because gains and losses occur in different places. See <a href="https://www.nature.com/articles/ncomms4712">Iizumi et al., Nature Communications</a>.</p>
+      </div>
+    </section>
+
+    <section class="alt" id="regions">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">04 · Historical map</p><h2>Where the pressure usually lands</h2></div>
+          <p class="kicker">These are historical tendencies, not a 2026/27 weather forecast. The crop stage, Indian Ocean Dipole, soil moisture and local adaptation can reinforce or cancel the pattern.</p>
+        </div>
+        <div class="region-grid">
+          <article class="region"><h3><span class="arrow">↓</span>Maritime SE Asia</h3><p>Drier/hotter across Indonesia, Malaysia and parts of the Philippines; Vietnam and Thailand vary by season.</p><b>Palm oil · robusta · rice · sugar</b></article>
+          <article class="region"><h3><span class="arrow">↕</span>India & South Asia</h3><p>Weaker or erratic monsoon can delay planting; export policy can multiply the price effect.</p><b>Rice · sugar · pulses · cotton</b></article>
+          <article class="region"><h3><span class="arrow">↓</span>Australia</h3><p>Often drier and warmer; rainfed yields, pasture and livestock cycles are exposed.</p><b>Wheat · barley · sugar · cattle</b></article>
+          <article class="region"><h3><span class="arrow">↓</span>Southern Africa</h3><p>Dry/hot Nov–Mar can overlap the main maize season and reduce reservoir levels.</p><b>White maize · livestock · hydropower</b></article>
+          <article class="region"><h3><span class="arrow">↑</span>Peru & Ecuador</h3><p>Warm coastal water suppresses nutrient upwelling; heavy rain can damage farms and logistics.</p><b>Anchoveta · bananas · shrimp</b></article>
+          <article class="region"><h3><span class="arrow">↑</span>Horn of Africa</h3><p>Wetter short rains can improve pasture when moderate, but flooding damages transport and livestock health.</p><b>Livestock · crops · logistics</b></article>
+          <article class="region"><h3><span class="arrow">↑</span>SE South America</h3><p>Often wetter at peak El Niño—an important offset that can help soy and maize or impair harvest quality.</p><b>Soybeans · maize · wheat</b></article>
+          <article class="region"><h3><span class="arrow">↕</span>West African cocoa belt</h3><p>Response is complex: excess rain raises black pod risk; later heat/dryness can hurt flowering and pod fill.</p><b>Cocoa · local cereals</b></article>
+          <article class="region"><h3><span class="arrow">↓</span>Central America</h3><p>Delayed or failed rains can cause severe local maize and bean losses; Panama water is multi-causal.</p><b>Maize · beans · coffee · canal freight</b></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="ranking">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">05 · Commodity screen</p><h2>Physical sensitivity ≠ expected return</h2></div>
+          <p class="kicker">Ranking blends the strength of the physical relationship with the chance it reaches a global traded price. Access is shown separately so an easy-to-buy product does not masquerade as a better thesis.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Commodity</th><th>Historical signal</th><th>Why it can work</th><th>Why it can fail</th><th>UK access</th><th>Posture</th></tr></thead>
+            <tbody>
+              <tr><td class="rank">1</td><td><strong>Anchoveta / fishmeal</strong><br><span class="tag">Very high physical</span></td><td>Peru landings fell 55% in 1997–98; warming suppresses upwelling and recruitment.</td><td>Fast, direct ocean-biology channel.</td><td>Poor direct retail investability; substitution matters.</td><td>No clean product verified</td><td><span class="pill pass">Observe</span></td></tr>
+              <tr><td class="rank">2</td><td><strong>Palm oil</strong><br><span class="tag">High physical</span></td><td>Malaysia output fell 13.2% in 2016; usual lag 4–12 months.</td><td>Concentrated SE Asian supply; drought damages fruit set and bunch weight.</td><td>Soy oil, biodiesel policy, stocks and FX can offset.</td><td>AGAP/AIGA proxy only</td><td><span class="pill watch">Watch</span></td></tr>
+              <tr><td class="rank">3</td><td><strong>Robusta coffee</strong><br><span class="tag mid">Medium–high</span></td><td>Indonesia/Vietnam dryness often reaches the following crop.</td><td>Origin concentration and quality differentials can create convexity.</td><td>Vietnam irrigation, Brazil and timing can offset.</td><td>COFF or AIGS</td><td><span class="pill watch">Watch</span></td></tr>
+              <tr><td class="rank">4</td><td><strong>Sugar</strong><br><span class="tag mid">Medium–high</span></td><td>Thailand fell ~20% in 1997–98; FAO sugar index rose 17.2% in Oct 2015.</td><td>India/Thailand drought plus Brazil harvest rain can align.</td><td>Global 1997–98 output was flat because other regions offset.</td><td>SUGA or AIGS</td><td><span class="pill watch">Watch</span></td></tr>
+              <tr><td class="rank">5</td><td><strong>Maize & rice</strong><br><span class="tag mid">High local / medium global</span></td><td>Severe regional crop losses recur, including southern Africa in 2023–24.</td><td>Policy or export restrictions can amplify local losses.</td><td>US/South America, stocks and trade flows often cushion global futures.</td><td>AGAP/AIGA; AGGP for grains</td><td><span class="pill watch">Selective</span></td></tr>
+              <tr><td class="rank">6</td><td><strong>Cocoa</strong><br><span class="tag mid">Medium physical</span></td><td>Concentrated supply and low stocks can make price response extreme.</td><td>Weather plus disease and depleted stocks can create convexity.</td><td>2023/24 was not a clean ENSO shock; current balance has improved.</td><td>COCO or AIGS</td><td><span class="pill pass">Proof first</span></td></tr>
+              <tr><td class="rank">7</td><td><strong>Wheat</strong><br><span class="tag low">Mixed global</span></td><td>Australia vulnerable; Argentina and other regions can benefit.</td><td>A severe Australian drought can tighten quality grades.</td><td>Large diversified global supply.</td><td>WEAP or AGGP</td><td><span class="pill pass">Secondary</span></td></tr>
+              <tr><td class="rank">8</td><td><strong>Soybeans</strong><br><span class="tag low">Mixed / contrary</span></td><td>Global mean yield can improve during El Niño.</td><td>Local heat or logistics can still matter.</td><td>Wet South America can raise output and offset Asian losses.</td><td>SOYB or AGAP/AIGA</td><td><span class="pill pass">Pass</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fine" style="margin-top:.8rem">Historical anchors: <a href="https://documents1.worldbank.org/curated/en/374701468186878123/pdf/Commodity-markets-outlook-understanding-El-Nino.pdf">World Bank El Niño commodity study</a>, <a href="https://ipad.fas.usda.gov/highlights/2016/08/malaysia/index.htm">USDA Malaysia palm oil</a>, <a href="https://www.fao.org/4/y5852e/Y5852E07.htm">FAO fisheries review</a>, and <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6609162/">global crop-failure evidence</a>.</p>
+      </div>
+    </section>
+
+    <section id="cocoa">
+      <div class="wrap cocoa">
+        <div>
+          <p class="eyebrow">Cocoa case study</p>
+          <h2>Not back to the old normal</h2>
+          <p>The July 2026 World Bank monthly price was below the 2024–25 averages, but still 71% above the 2023 annual average. A lower chart does not automatically mean cheap.</p>
+          <div class="price-rail">
+            <div><b>$3.28</b><span>2023 annual · $/kg</span></div>
+            <div><b>$7.80</b><span>2025 annual · $/kg</span></div>
+            <div><b>$5.61</b><span>Jul 2026 · $/kg</span></div>
+          </div>
+          <p class="fine" style="color:#aebfbc">Source: <a style="color:#9bd9cd" href="https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Pink-Sheet-August-2026.pdf">World Bank Pink Sheet, Aug 2026</a>.</p>
+        </div>
+        <div>
+          <h3>Why 2024 is the wrong single-factor analogue</h3>
+          <p>ICCO attributes the 2023/24 deficit to adverse weather plus black pod disease, swollen-shoot virus and structural constraints. Its retrospective says the deficit was <em>not directly linked</em> to El Niño as initially expected. For 2024/25, ICCO's May 2026 bulletin estimated a small 48kt surplus and a 28.5% stocks-to-grindings ratio.</p>
+          <p><b>Require a multi-signal deterioration before considering COCO:</b></p>
+          <div class="proof-list">
+            <div>Côte d’Ivoire/Ghana crop-window weather</div>
+            <div>Black pod and swollen-shoot incidence</div>
+            <div>Pod counts, bean quality and arrivals</div>
+            <div>ICCO balance and certified stocks</div>
+            <div>Grinding demand remains resilient</div>
+            <div>Futures curve confirms scarcity</div>
+          </div>
+          <p class="fine" style="color:#aebfbc;margin-top:1rem">Sources: <a style="color:#9bd9cd" href="https://www.icco.org/wp-content/uploads/ICCO-Annual-Report-2023-2024-EN.pdf">ICCO 2023/24 annual report</a> and <a style="color:#9bd9cd" href="https://www.icco.org/may-2026-quarterly-bulletin-of-cocoa-statistics/">May 2026 quarterly bulletin</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="scenarios">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">06 · Scenarios</p><h2>Climate certainty, price dispersion</h2></div>
+          <p class="kicker">These are analyst probabilities for commodity transmission—not official ENSO probabilities and not expected portfolio returns.</p>
+        </div>
+        <div class="scenario-grid">
+          <article class="scenario base"><span class="tag">Base</span><div class="prob">60%</div><h3>Very strong, patchy crop shocks</h3><p>Selective pressure in palm oil, robusta and sugar, but gains elsewhere prevent a broad agricultural spike.</p><ul><li>Remain on watchlist.</li><li>Prefer baskets over a single crop.</li><li>Wait for official crop revisions.</li></ul></article>
+          <article class="scenario up"><span class="tag low">Commodity bull</span><div class="prob">25%</div><h3>Canonical drought hits tight markets</h3><p>SE Asia, India/Thailand, Australia or southern Africa lose output in critical windows while stocks are low.</p><ul><li>Target agriculture/softs.</li><li>Use single crops only with confirmation.</li><li>Check the curve and spread.</li></ul></article>
+          <article class="scenario down"><span class="tag mid">Failed trade</span><div class="prob">15%</div><h3>Weather or balances offset</h3><p>Teleconnections miss crops, South America performs, stocks cushion losses, or futures already priced the narrative.</p><ul><li>Stay uninvested.</li><li>Do not average down on ONI.</li><li>Close when crop windows pass.</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="proof">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">07 · Evidence gate</p><h2>Three of five before exposure</h2></div>
+          <p class="kicker">Require at least three gates, including an official production downgrade or tight inventory evidence. ENSO strength by itself does not count as a commodity edge.</p>
+        </div>
+        <div class="gates">
+          <div class="gate"><b>1 · Forecast</b><span>Seasonal rain/heat anomaly matches the historical regional pattern.</span></div>
+          <div class="gate"><b>2 · Observed</b><span>Rain, soil moisture or heat actually deteriorates during the crop window.</span></div>
+          <div class="gate"><b>3 · Crop</b><span>USDA, FAO, ICCO, ICO or another authority cuts output or quality.</span></div>
+          <div class="gate"><b>4 · Balance</b><span>Stocks/export availability are tight and the futures curve confirms scarcity.</span></div>
+          <div class="gate"><b>5 · Product</b><span>Exact ISIN is eligible, live, liquid and has an acceptable spread.</span></div>
+        </div>
+        <div class="callout"><strong>What is already priced:</strong><p>The existence and exceptional likely strength of El Niño are public. The research edge—if one emerges—will be in crop timing, inventories and product selection, not in discovering the event.</p></div>
+      </div>
+    </section>
+
+    <section class="alt" id="access">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">08 · UK investability</p><h2>ISA targeted; SIPP diluted</h2></div>
+          <p class="kicker">Public catalogue availability was checked on 14 Aug 2026. Reconfirm the exact ISIN in the logged-in wrapper and open the current PRIIPs KID before any order.</p>
+        </div>
+        <div class="instrument-note">
+          <div class="targeted"><h3>Trading 212 ISA</h3><p>Best current route for targeted agriculture and single-commodity ETCs. Platform policy permits ETFs, ETPs and ETCs in Invest and Stocks ISA, subject to account availability and an appropriateness assessment.</p></div>
+          <div class="broad"><h3>InvestEngine SIPP</h3><p>Verified public choices are mainly broad commodity UCITS ETFs or agribusiness equities. They dilute a pure El Niño crop thesis with energy, metals and corporate factors.</p></div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Wrapper</th><th>Instrument</th><th>What it owns/tracks</th><th>Cost & mechanics</th><th>Research judgment</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Trading 212 ISA</strong></td><td><a href="https://www.trading212.com/trading-instruments/invest/AGAP.GB">AGAP</a> / <a href="https://www.trading212.com/trading-instruments/invest/AIGA.GB">AIGA</a><br>WisdomTree Agriculture<br><span class="fine">ISIN GB00B15KYH63</span></td><td>Agriculture basket: soy, corn, oils, wheat, sugar, coffee, cotton and ~5% cocoa. No direct palm oil.</td><td>ETC debt security; 0.49% MER + 0.45% swap rate; futures roll and USD exposure. GBP line avoids broker FX, not underlying FX.</td><td><span class="pill watch">Best basket watch</span><br><span class="fine">Most coherent diversified expression after proof.</span></td></tr>
+              <tr><td><strong>Trading 212 ISA</strong></td><td><a href="https://www.trading212.com/trading-instruments/invest/AIGS.GB">AIGS</a><br>WisdomTree Softs<br><span class="fine">ISIN GB00B15KYJ87</span></td><td>Sugar ~34%, coffee ~29%, cotton ~20%, cocoa ~17%.</td><td>Same ETC mechanics; small AUM and T212 public price history appeared stale on review.</td><td><span class="pill pass">Verify first</span><br><span class="fine">Good thematic mix, execution status uncertain.</span></td></tr>
+              <tr><td><strong>Trading 212 ISA</strong></td><td><a href="https://www.trading212.com/trading-instruments/invest/COFF.GB">COFF</a> / <a href="https://www.trading212.com/trading-instruments/invest/SUGA.GB">SUGA</a></td><td>Single coffee-futures or sugar-futures total-return indices.</td><td>Concentrated ETCs; 0.49% MER + 0.45% swap rate; roll yield, spread and FX can dominate.</td><td><span class="pill watch">Crop proof</span><br><span class="fine">More targeted, much higher basis and drawdown risk.</span></td></tr>
+              <tr><td><strong>Trading 212 ISA</strong></td><td><a href="https://www.trading212.com/trading-instruments/invest/COCO.GB">COCO</a><br>WisdomTree Cocoa<br><span class="fine">ISIN JE00B2QXZK10</span></td><td>Cocoa-futures total-return index with a four-week roll process; not spot cocoa.</td><td>Collateralised ETC debt security; 0.49% MER + 0.45% swap rate plus roll/spread/FX.</td><td><span class="pill pass">Wait for proof</span><br><span class="fine">Do not anchor on the 2024 price chart.</span></td></tr>
+              <tr><td><strong>InvestEngine SIPP</strong></td><td><a href="https://investengine.com/etfs/wisdomtree/wcom/">WCOM</a><br>WisdomTree Enhanced Commodity<br><span class="fine">ISIN IE00BG88WH84</span></td><td>~38% energy, 24% agriculture, plus metals and livestock; GBP-hedged accumulating share class.</td><td>UCITS ETF; TER 0.23% plus issuer-disclosed 0.25% swap rate.</td><td><span class="pill pass">Too broad</span><br><span class="fine">Reasonable only for a wider commodity-allocation thesis.</span></td></tr>
+              <tr><td><strong>InvestEngine SIPP</strong></td><td><a href="https://investengine.com/etfs/blackrock-ishares/comm/">COMM</a> or <a href="https://investengine.com/etfs/legal-general-lg/bcog/">BCOG</a></td><td>Broad Bloomberg Commodity Index total return; close substitutes, not diversification from each other.</td><td>Synthetic UCITS ETFs; TER 0.19% for COMM, 0.15% for BCOG; unhedged USD exposure.</td><td><span class="pill pass">Pass for ENSO</span><br><span class="fine">Agriculture diluted by energy and metals.</span></td></tr>
+              <tr><td><strong>InvestEngine SIPP</strong></td><td><a href="https://investengine.com/etfs/blackrock-ishares/spag/">SPAG</a><br>iShares Agribusiness</td><td>Physical equity ETF of agribusiness companies, not commodity futures.</td><td>UCITS equity fund; TER 0.55%; company margins, volumes and multiples intervene.</td><td><span class="pill pass">Different thesis</span><br><span class="fine">Can fall when crop prices rise if portfolio companies lose volume.</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fine" style="margin-top:1rem"><b>Product mechanics:</b> “UCITS eligible” does not make a WisdomTree commodity ETC a UCITS fund. ETC investors own a limited-recourse debt security backed by collateralised swap exposure. Futures return = price move + roll yield + collateral return − fees. Avoid daily leveraged/inverse products for a months-long thesis because daily reset creates path dependency.</p>
+      </div>
+    </section>
+
+    <section id="monitor">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">09 · Monitoring</p><h2>Move from ocean to field</h2></div>
+          <p class="kicker">The decision now turns on observed regional weather and official balance-sheet revisions. A fixed cadence prevents headline-driven trading.</p>
+        </div>
+        <div class="monitor">
+          <div class="calendar">
+            <div class="calendar-item"><b>Weekly</b><span><a href="https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/enso.shtml">NOAA ocean-atmosphere indicators</a>; crop-region rainfall, heat and soil moisture; futures curves and spreads.</span></div>
+            <div class="calendar-item"><b>Around the 10th</b><span><a href="https://ds.data.jma.go.jp/tcc/tcc/products/elnino/outlook.html">JMA ENSO outlook</a> and <a href="https://climate.copernicus.eu/seasonal-forecasts">Copernicus seasonal forecasts</a>.</span></div>
+            <div class="calendar-item"><b>Second Thursday</b><span><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.html">NOAA diagnostic discussion</a> and official probability table.</span></div>
+            <div class="calendar-item"><b>Around the 20th</b><span><a href="https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/">IRI model plume</a>; focus on dispersion and regional seasonal maps.</span></div>
+            <div class="calendar-item"><b>Monthly / quarterly</b><span>USDA/FAO crops, ICO coffee, ICCO cocoa, country output, exports and inventories.</span></div>
+          </div>
+          <div class="note-card">
+            <h3>Commodity dashboard</h3>
+            <div class="table-wrap" style="border-radius:10px">
+              <table style="min-width:620px">
+                <thead><tr><th>Theme</th><th>Leading field evidence</th><th>Balance confirmation</th></tr></thead>
+                <tbody>
+                  <tr><td>Palm oil</td><td>Indonesia/Malaysia rainfall; 4–12m lag</td><td>Official production, stocks, exports, soy-oil spread</td></tr>
+                  <tr><td>Coffee</td><td>Vietnam/Indonesia rain; flowering and bean fill</td><td>ICO output/exports, certified stocks, robusta curve</td></tr>
+                  <tr><td>Sugar</td><td>India/Thailand monsoon; Brazil harvest rain</td><td>Output, export policy, cane mix, curve</td></tr>
+                  <tr><td>Cocoa</td><td>West Africa rain/heat, disease, pod counts</td><td>Arrivals, ICCO balance, certified stocks, grindings</td></tr>
+                  <tr><td>Grains/rice</td><td>Australia, India, SE Asia and southern Africa crop stages</td><td>WASDE, stocks, export controls, US/South America offsets</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alt" id="sources">
+      <div class="wrap">
+        <div class="section-head">
+          <div><p class="eyebrow">10 · Sources & freshness</p><h2>Primary evidence first</h2></div>
+          <p class="kicker">Cut-off 14 Aug 2026. Climate status, historical crop evidence, current cocoa baseline and instrument mechanics use official agencies, multilateral organisations, issuers and platform pages. Exact account-level availability and live spreads must be checked at execution.</p>
+        </div>
+        <div class="sources">
+          <div class="source"><b><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_disc_aug2026/ensodisc.shtml">NOAA CPC · 13 Aug 2026</a></b><span>Official diagnostic discussion, status and very-strong outlook.</span></div>
+          <div class="source"><b><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/outlook/">NOAA RONI tables · 13 Aug 2026</a></b><span>Seasonal medians and event/strength probabilities.</span></div>
+          <div class="source"><b><a href="https://www.bom.gov.au/climate/enso/">Australian BoM · 11 Aug 2026</a></b><span>Southern Hemisphere event status, IOD interaction and persistence.</span></div>
+          <div class="source"><b><a href="https://ds.data.jma.go.jp/tcc/tcc/products/elnino/outlook.html">JMA · 10 Aug 2026</a></b><span>Independent official Niño 3 outlook.</span></div>
+          <div class="source"><b><a href="https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/">IRI · 20 Jul 2026</a></b><span>Objective multi-model probabilities and plume.</span></div>
+          <div class="source"><b><a href="https://wmo.int/media/news/el-nino-forecast-intensify-increasing-likelihood-of-extreme-weather">WMO · 3 Jul 2026</a></b><span>Global-centre consensus confirmation.</span></div>
+          <div class="source"><b><a href="https://www.climate.gov/news-features/featured-images/global-impacts-el-ni%C3%B1o-and-la-ni%C3%B1a">NOAA Climate.gov</a></b><span>Canonical seasonal teleconnections and impact caveats.</span></div>
+          <div class="source"><b><a href="https://documents1.worldbank.org/curated/en/374701468186878123/pdf/Commodity-markets-outlook-understanding-El-Nino.pdf">World Bank Commodity Markets Outlook</a></b><span>Historical price windows, inventories and offset evidence.</span></div>
+          <div class="source"><b><a href="https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Pink-Sheet-August-2026.pdf">World Bank Pink Sheet · Aug 2026</a></b><span>Current July commodity-price baseline.</span></div>
+          <div class="source"><b><a href="https://www.icco.org/wp-content/uploads/ICCO-Annual-Report-2023-2024-EN.pdf">ICCO 2023/24 annual report</a></b><span>Cocoa attribution, structural causes and balance history.</span></div>
+          <div class="source"><b><a href="https://www.icco.org/may-2026-quarterly-bulletin-of-cocoa-statistics/">ICCO · May 2026</a></b><span>Latest free balance and stocks-to-grindings baseline.</span></div>
+          <div class="source"><b><a href="https://ipad.fas.usda.gov/highlights/2016/08/malaysia/index.htm">USDA FAS · 2016 palm oil</a></b><span>Malaysia drought lag and production evidence.</span></div>
+          <div class="source"><b><a href="https://www.nature.com/articles/ncomms4712">Nature Communications · crop yields</a></b><span>Global and spatial yield heterogeneity across maize, rice, wheat and soy.</span></div>
+          <div class="source"><b><a href="https://helpcentre.trading212.com/hc/en-us/articles/11717160183197-What-trading-instruments-does-Trading-212-offer">Trading 212 instrument policy</a></b><span>ETF, ETP and ETC support in Invest and Stocks ISA.</span></div>
+          <div class="source"><b><a href="https://www.wisdomtree.com/gb/products/commodities/wisdomtree-agriculture">WisdomTree · Agriculture ETC</a></b><span>Holdings, legal structure, fees, swap and eligibility.</span></div>
+          <div class="source"><b><a href="https://investengine.com/sipp/">InvestEngine · current SIPP page</a></b><span>Platform terms and ETF universe.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bottom-line">
+      <div class="wrap bottom-box">
+        <h2>Bottom line</h2>
+        <div>
+          <p><b>High climate conviction does not yet equal high trade conviction.</b> Palm oil and anchoveta have the strongest physical links, but poor direct access. The most coherent practical watchlist is AGAP/AIGA, then COFF and SUGA after crop proof. COCO requires a stricter multi-signal test.</p>
+          <p>No allocation is proposed: portfolio size, horizon, loss budget and drawdown tolerance were not supplied. This is decision support, not personal financial advice.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap"><span>Prepared 14 Aug 2026 · Europe/London</span><span>Public evidence only · live platform checks required before execution</span></div>
+  </footer>
+</body>
+</html>
