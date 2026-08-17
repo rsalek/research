@@ -108,7 +108,40 @@
       padding: 1.35rem;
       box-shadow: 0 10px 24px rgba(16,37,43,.04);
       min-height: 100%;
+      min-width: 0;
     }
+    .thesis-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: var(--surface); }
+    .thesis-item { padding: 1.25rem; border-right: 1px solid var(--line); }
+    .thesis-item:last-child { border-right: 0; }
+    .thesis-item b { display: block; margin-bottom: .4rem; font-family: Georgia, serif; font-size: 1.08rem; color: var(--navy); }
+    .thesis-item p { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    .evidence-note { margin-top: 1.25rem; padding: 1rem 1.15rem; border-left: 4px solid var(--gold); background: var(--gold-soft); font-size: .86rem; }
+    .evidence-note p { margin: 0; }
+
+    .value-chain { display: grid; grid-template-columns: repeat(5, 1fr); align-items: stretch; border: 1px solid var(--line); background: var(--line); gap: 1px; margin-top: 1.5rem; }
+    .chain-step { position: relative; min-height: 150px; padding: 1.1rem; background: var(--surface); }
+    .chain-step::after { content: "→"; position: absolute; right: -13px; top: 50%; z-index: 2; width: 24px; height: 24px; border: 1px solid var(--line); background: var(--paper); color: var(--coral); text-align: center; line-height: 21px; border-radius: 50%; }
+    .chain-step:last-child::after { display: none; }
+    .chain-step b { display: block; font-family: Georgia, serif; font-size: 1.05rem; color: var(--navy); }
+    .chain-step span { display: block; margin-top: .45rem; color: var(--muted); font-size: .79rem; line-height: 1.45; }
+    .chain-step em { display: block; margin-top: .7rem; color: var(--teal); font-size: .73rem; font-style: normal; font-weight: 750; }
+
+    .claim-status { display: inline-block; min-width: 80px; font-weight: 750; }
+    .claim-status.confirmed { color: #08645a; }
+    .claim-status.qualified { color: #8a6519; }
+    .claim-status.speculative { color: #9b432b; }
+    .source-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 2rem; }
+    .source-item { padding: 1rem 0; border-bottom: 1px solid var(--line); }
+    .source-item b { display: block; margin-bottom: .15rem; }
+    .source-item p { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.45; }
+    .action-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .action-card { border-top: 4px solid var(--teal); background: var(--surface); padding: 1.2rem; border-left: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .action-card:nth-child(2) { border-top-color: var(--gold); }
+    .action-card:nth-child(3) { border-top-color: var(--coral); }
+    .action-card h3 { font-size: 1.15rem; }
+    .action-card dl { margin: .8rem 0 0; }
+    .action-card dt { margin-top: .75rem; color: var(--muted); font-size: .73rem; font-weight: 750; text-transform: uppercase; letter-spacing: .06em; }
+    .action-card dd { margin: .15rem 0 0; font-size: .85rem; line-height: 1.45; }
     .chart {
       padding: 1.2rem;
       border: 1px solid var(--line);
@@ -176,14 +209,31 @@
       height: auto;
       display: block;
       border: 1px solid var(--line);
-      border-radius: 14px;
-      background: #fff;
+      border-radius: 10px;
+      background: #fffefa;
     }
+    .chart-card figcaption { margin-top: .9rem; color: var(--muted); font-size: .84rem; line-height: 1.5; }
+    .chart-card figcaption strong { color: var(--ink); }
+    .chart-scroll { overflow-x: auto; scrollbar-color: var(--line) transparent; }
+    .chart-legend { display: flex; flex-wrap: wrap; gap: .45rem 1rem; min-height: 42px; margin: .35rem 0 .75rem; padding: .55rem .7rem; border-block: 1px solid var(--line); color: #334b51; font-size: .76rem; line-height: 1.25; }
+    .legend-item { display: inline-flex; align-items: center; gap: .42rem; }
+    .legend-line { width: 22px; height: 4px; background: var(--teal); }
+    .legend-line.gold { background: var(--gold); }
+    .legend-line.coral { background: var(--coral); }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); }
+    .legend-dot.gold { background: var(--gold); }
+    .legend-dot.coral { background: var(--coral); }
 
     .mono { font-variant-numeric: tabular-nums; }
 
     @media (max-width: 900px) {
-      .hero-grid, .section-head, .compare, .chart-grid, .monitor, .regions, .bottom-box { grid-template-columns: 1fr; gap: 1.5rem; }
+      .hero-grid, .section-head, .compare, .chart-grid, .monitor, .regions, .bottom-box, .thesis-grid, .value-chain, .source-grid, .action-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+      .thesis-grid, .value-chain { gap: 0; }
+      .thesis-item { border-right: 0; border-bottom: 1px solid var(--line); }
+      .thesis-item:last-child { border-bottom: 0; }
+      .chain-step { min-height: 0; border-bottom: 1px solid var(--line); }
+      .chain-step:last-child { border-bottom: 0; }
+      .chain-step::after { content: "↓"; right: 1rem; top: auto; bottom: -13px; }
       .signal-strip { grid-template-columns: 1fr 1fr; }
       .signal:nth-child(2) { border-right: 0; }
       .signal:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
@@ -196,6 +246,7 @@
       .hero { padding-top: 48px; }
       section { padding: 50px 0; }
       .timeline, .chart-grid, .regions, .source { overflow-x: auto; }
+      .chart-scroll .chart-svg { min-width: 560px; }
       footer .wrap { display: block; }
     }
     @media print { .topbar { position: static; } a { color: inherit; } }
@@ -227,11 +278,37 @@
     </section>
 
     <div class="wrap signal-strip">
-      <div class="signal"><b class="mono">9</b><span>global baseload gap events flagged in 2024–26</span></div>
-      <div class="signal"><b class="mono">3%</b><span>share of global OPEC spare capacity implied in forward views</span></div>
-      <div class="signal"><b class="mono">1.7x</b><span>higher project cost pressure vs pre-transition base</span></div>
-      <div class="signal"><b class="mono">4/10</b><span>policy consistency score in major power-policy regions</span></div>
+      <div class="signal"><b class="mono">17%</b><span>growth in global data-centre electricity use in 2025 · IEA</span></div>
+      <div class="signal"><b class="mono">~20%</b><span>planned data-centre capacity at risk of grid-related delay by 2030 · IEA</span></div>
+      <div class="signal"><b class="mono">2,061 GW</b><span>US generation and storage seeking grid connection at end-2025 · LBNL</span></div>
+      <div class="signal"><b class="mono">&gt;5 yrs</b><span>median request-to-operation time for completed US projects in 2025 · LBNL</span></div>
     </div>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>The thesis in one page</h2>
+          <div>
+            <p class="kicker">AI changes the energy debate because the scarce input is often not the cheapest megawatt-hour; it is a dependable megawatt delivered at the right location and date. That shifts the investment lens from fuel prices alone toward connection rights, grid equipment, firm generation, storage, and flexible load.</p>
+            <p class="fine">The podcast’s strongest claim is therefore a timing claim: digital infrastructure can be financed and built faster than the surrounding power system can expand.</p>
+          </div>
+        </div>
+        <div class="thesis-grid">
+          <div class="thesis-item"><b>1. Load is returning</b><p>After years of muted growth in advanced economies, data centres, electrification, and manufacturing are raising local load forecasts. The effect is concentrated, so national averages can hide regional stress.</p></div>
+          <div class="thesis-item"><b>2. Delivery beats headline cost</b><p>A low-cost project that cannot obtain interconnection or equipment on time has limited value to a customer with a fixed commissioning date. Time-to-power can command an economic premium.</p></div>
+          <div class="thesis-item"><b>3. The supply mix stays plural</b><p>Solar, storage, gas, existing nuclear, geothermal, and grid imports solve different parts of the reliability problem. No single technology satisfies speed, firmness, cost, and emissions in every region.</p></div>
+          <div class="thesis-item"><b>4. Bottlenecks capture value</b><p>Transformers, switchgear, turbines, cables, substations, permits, and contracted capacity can earn scarcity rents before more speculative technologies reach commercial scale.</p></div>
+        </div>
+        <div class="value-chain" aria-label="Energy to compute value chain">
+          <div class="chain-step"><b>Generation</b><span>Solar, wind, gas, nuclear and geothermal establish the available energy envelope.</span><em>Key metric: deliverable MW</em></div>
+          <div class="chain-step"><b>Firming</b><span>Storage, fuel supply and dispatchable capacity convert variable output into a dependable profile.</span><em>Key metric: capacity at required hours</em></div>
+          <div class="chain-step"><b>Grid access</b><span>Interconnection studies, transformers, substations and transmission determine when power can flow.</span><em>Key metric: energisation date</em></div>
+          <div class="chain-step"><b>Site infrastructure</b><span>Switchgear, backup systems, cooling and power management translate grid service into usable facility power.</span><em>Key metric: uptime and PUE</em></div>
+          <div class="chain-step"><b>Compute revenue</b><span>GPU utilisation and customer demand determine whether the delivered megawatt earns an adequate return.</span><em>Key metric: revenue per energised MW</em></div>
+        </div>
+        <div class="evidence-note"><p><strong>Important distinction:</strong> generation interconnection queues are not the same as large-load connection queues. They are evidence of a congested delivery system, but they do not directly prove that every proposed data centre will wait the same amount of time.</p></div>
+      </div>
+    </section>
 
     <section class="alt">
       <div class="wrap">
@@ -263,9 +340,32 @@
     <section>
       <div class="wrap">
         <div class="section-head">
-          <h2>Regional energy stress map</h2>
-          <p class="kicker">Relative pressure points and the likely order of repricing between regions. Values are directional and represented as “watchlist severity.”</p>
+          <h2>Fact-checking the central claims</h2>
+          <p class="kicker">The transcript mixes well-supported bottleneck observations with aggressive technology extrapolations. The table separates what can be used in an investment case today from what should remain an option-value scenario.</p>
         </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Transcript proposition</th><th>Assessment</th><th>What the evidence supports</th><th>Investment implication</th></tr></thead>
+            <tbody>
+              <tr><td><strong>AI power is constrained more by availability than by electricity price.</strong></td><td><span class="claim-status confirmed">Supported</span></td><td>The IEA identifies grid connections, permitting, transformers, cables and generation equipment as near-term constraints; around 20% of planned capacity could face delays.</td><td>Time-to-power and contracted delivery can matter more than broad commodity direction.</td></tr>
+              <tr><td><strong>Interconnection times have lengthened materially.</strong></td><td><span class="claim-status confirmed">Supported</span></td><td>LBNL reports a median of more than five years from request to commercial operation for the subset of US projects completed in 2025.</td><td>Grid equipment, engineering capacity and existing connection rights deserve separate underwriting.</td></tr>
+              <tr><td><strong>Behind-the-meter generation will bridge the gap.</strong></td><td><span class="claim-status qualified">Qualified</span></td><td>IEA sees a growing onsite-gas pipeline, but many projects remain early-stage and must manage rapid load swings, fuel delivery, emissions, permits and reliability.</td><td>Do not equate an announced onsite project with available, contracted power.</td></tr>
+              <tr><td><strong>Solar plus batteries can become a dominant supply route.</strong></td><td><span class="claim-status qualified">Qualified</span></td><td>Renewables are expected to meet nearly half of global data-centre demand growth to 2030, but firm 24/7 service still needs grid capacity, storage duration or dispatchable backup.</td><td>Separate low-cost energy from round-the-clock capacity and from connection timing.</td></tr>
+              <tr><td><strong>Sodium-ion batteries could cut storage cost tenfold.</strong></td><td><span class="claim-status speculative">Speculative</span></td><td>Sodium-ion may reduce mineral dependence and serve some stationary uses, but a tenfold system-cost reduction is not a bankable base-case assumption today.</td><td>Treat chemistry breakthroughs as upside optionality; underwrite factories, yield, cycle life and delivered system cost.</td></tr>
+              <tr><td><strong>SMRs or fusion will solve near-term AI power needs.</strong></td><td><span class="claim-status speculative">Long-dated</span></td><td>IEA expects first SMRs around or just after 2030; fusion and space-based compute remain outside a practical 2026–30 base case.</td><td>Near-term exposure is primarily development and policy optionality, not operating cash flow.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Regional energy stress map</h2>
+          <p class="kicker">An illustrative research-priority score from 0 to 100—not a probability or return forecast. Higher values indicate more reasons to monitor the region/segment combination across physical balance, project timing, and policy exposure.</p>
+        </div>
+        <div class="fine" style="display:flex;justify-content:space-between;margin:0 56px .5rem 110px"><span>0 · lower watch priority</span><span>100 · higher watch priority</span></div>
         <div class="bars">
           <div class="bar">
             <span>Middle East (Upstream)</span><span class="track"><span class="fill red" style="--w:82%"></span></span><span>82</span>
@@ -280,6 +380,7 @@
             <span>East Asia (Demand)</span><span class="track"><span class="fill red" style="--w:77%"></span></span><span>77</span>
           </div>
         </div>
+        <p class="fine" style="margin-top:1rem">Coral marks combinations where physical supply or demand can reprice quickly; teal marks combinations where infrastructure and policy transmission are expected to dominate. Scores are analytical prompts and should be refreshed with observed data.</p>
       </div>
     </section>
 
@@ -291,43 +392,138 @@
         </div>
         <div class="chart-grid">
           <figure class="chart-card">
-            <h3>Indicative segment transmission (index-like)</h3>
-            <svg class="chart-svg" viewBox="0 0 740 270" role="img" aria-label="Line chart of relative transmission over time">
-              <rect x="40" y="12" width="680" height="220" fill="none" stroke="#d6d8cf"/>
-              <path d="M60 210 C120 184 180 176 240 160 C300 144 360 132 420 118 C480 100 540 86 600 70 C660 56 700 49 700 49" fill="none" stroke="#0b6d68" stroke-width="3"/>
-              <path d="M60 210 C130 208 200 203 270 200 C340 198 410 210 480 198 C560 184 620 171 700 166" fill="none" stroke="#e4684a" stroke-width="3"/>
-              <path d="M60 210 C130 188 200 170 270 152 C340 132 410 108 480 88 C560 70 620 59 700 58" fill="none" stroke="#b88b2e" stroke-width="3"/>
-              <text x="44" y="238" fill="#587076" font-size="11">Q1 2026</text>
-              <text x="188" y="238" fill="#587076" font-size="11">Q2 2026</text>
-              <text x="332" y="238" fill="#587076" font-size="11">Q3 2026</text>
-              <text x="478" y="238" fill="#587076" font-size="11">Q4 2026</text>
-              <text x="620" y="238" fill="#587076" font-size="11">Q1 2027</text>
+            <h3>Indicative segment transmission</h3>
+            <div class="chart-legend" aria-label="Series legend">
+              <span class="legend-item"><span class="legend-line"></span>Oil &amp; refined products</span>
+              <span class="legend-item"><span class="legend-line gold"></span>Natural gas &amp; LNG</span>
+              <span class="legend-item"><span class="legend-line coral"></span>Grid-constrained power</span>
+            </div>
+            <div class="chart-scroll" role="group" aria-label="Scrollable chart area">
+            <svg class="chart-svg" viewBox="0 0 760 430" role="img" aria-labelledby="transmission-title transmission-desc">
+              <title id="transmission-title">Indicative cumulative price transmission by energy segment</title>
+              <desc id="transmission-desc">Oil and refined products reprice first, natural gas and LNG follow, while constrained power responds later but accelerates into early 2027. Values are illustrative indices from zero to one hundred.</desc>
+
+              <g font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+                <text x="72" y="34" fill="#10252b" font-size="13" font-weight="700">Cumulative repricing response</text>
+                <text x="72" y="52" fill="#587076" font-size="11">Illustrative index (0 = no transmission, 100 = full transmission)</text>
+
+                <g stroke="#e2e3dc" stroke-width="1">
+                  <line x1="72" y1="82" x2="704" y2="82"/>
+                  <line x1="72" y1="136" x2="704" y2="136"/>
+                  <line x1="72" y1="190" x2="704" y2="190"/>
+                  <line x1="72" y1="244" x2="704" y2="244"/>
+                  <line x1="72" y1="298" x2="704" y2="298"/>
+                  <line x1="72" y1="352" x2="704" y2="352"/>
+                  <line x1="72" y1="82" x2="72" y2="352"/>
+                  <line x1="230" y1="82" x2="230" y2="352" stroke-dasharray="3 5"/>
+                  <line x1="388" y1="82" x2="388" y2="352" stroke-dasharray="3 5"/>
+                  <line x1="546" y1="82" x2="546" y2="352" stroke-dasharray="3 5"/>
+                  <line x1="704" y1="82" x2="704" y2="352"/>
+                </g>
+
+                <g fill="#587076" font-size="11" text-anchor="end">
+                  <text x="61" y="86">100</text>
+                  <text x="61" y="140">80</text>
+                  <text x="61" y="194">60</text>
+                  <text x="61" y="248">40</text>
+                  <text x="61" y="302">20</text>
+                  <text x="61" y="356">0</text>
+                </g>
+
+                <g fill="#587076" font-size="11" text-anchor="middle">
+                  <text x="72" y="374">Q1 2026</text>
+                  <text x="230" y="374">Q2 2026</text>
+                  <text x="388" y="374">Q3 2026</text>
+                  <text x="546" y="374">Q4 2026</text>
+                  <text x="704" y="374">Q1 2027</text>
+                  <text x="388" y="405" fill="#334b51" font-size="12" font-weight="700">Observation quarter</text>
+                </g>
+
+                <path d="M72 352 C130 300 174 256 230 217 S338 158 388 136 S492 103 546 93 S650 85 704 82" fill="none" stroke="#0b6d68" stroke-width="4" stroke-linecap="round"/>
+                <path d="M72 352 C134 335 178 310 230 282 S338 223 388 190 S492 140 546 115 S651 94 704 90" fill="none" stroke="#b88b2e" stroke-width="4" stroke-linecap="round"/>
+                <path d="M72 352 C139 350 179 344 230 338 S337 324 388 314 S491 285 546 244 S651 185 704 163" fill="none" stroke="#e4684a" stroke-width="4" stroke-linecap="round"/>
+
+                <g>
+                  <circle cx="704" cy="82" r="5" fill="#fffefa" stroke="#0b6d68" stroke-width="3"/>
+                  <circle cx="704" cy="90" r="5" fill="#fffefa" stroke="#b88b2e" stroke-width="3"/>
+                  <circle cx="704" cy="163" r="5" fill="#fffefa" stroke="#e4684a" stroke-width="3"/>
+                </g>
+              </g>
             </svg>
-            <p>Oil and refined products are often the first to react, gas follows on storage, while grid-constrained power tends to lag but reprice sharply when constrained periods persist.</p>
+            </div>
+            <figcaption><strong>How to read:</strong> the vertical scale shows the share of a hypothetical shock transmitted into segment pricing. Oil and refined products react first; gas follows through storage and contract resets; constrained power lags, then accelerates if stress persists.</figcaption>
           </figure>
           <figure class="chart-card">
             <h3>Relative exposure map for theme baskets</h3>
-            <svg class="chart-svg" viewBox="0 0 740 270" role="img" aria-label="Bar style chart of exposure heat by basket">
-              <rect x="54" y="14" width="658" height="214" fill="none" stroke="#d6d8cf"/>
-              <rect x="80" y="180" width="74" height="35" fill="#0b6d68"/>
-              <rect x="164" y="155" width="74" height="60" fill="#0b6d68"/>
-              <rect x="248" y="129" width="74" height="86" fill="#e4684a"/>
-              <rect x="332" y="105" width="74" height="110" fill="#0b6d68"/>
-              <rect x="416" y="156" width="74" height="59" fill="#e4684a"/>
-              <rect x="500" y="88" width="74" height="127" fill="#b88b2e"/>
-              <rect x="584" y="132" width="74" height="83" fill="#0b6d68"/>
-              <g fill="#587076" font-size="11">
-                <text x="70" y="240">Oil</text>
-                <text x="154" y="240">Gas</text>
-                <text x="232" y="240">Power</text>
-                <text x="316" y="240">Battery</text>
-                <text x="404" y="240">Hydrogen</text>
-                <text x="489" y="240">Uranium</text>
-                <text x="566" y="240">Grid</text>
+            <div class="chart-legend" aria-label="Category legend">
+              <span class="legend-item"><span class="legend-dot"></span>Commodity-linked returns</span>
+              <span class="legend-item"><span class="legend-dot gold"></span>Infrastructure / contracted returns</span>
+              <span class="legend-item"><span class="legend-dot coral"></span>Technology / development returns</span>
+            </div>
+            <div class="chart-scroll" role="group" aria-label="Scrollable chart area">
+            <svg class="chart-svg" viewBox="0 0 760 430" role="img" aria-labelledby="exposure-title exposure-desc">
+              <title id="exposure-title">Relative demand visibility and policy risk across energy theme baskets</title>
+              <desc id="exposure-desc">A scatter plot where themes farther right have stronger demand visibility and themes higher up have greater policy and execution risk. Colours identify the main return transmission channel.</desc>
+
+              <g font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+                <text x="72" y="34" fill="#10252b" font-size="13" font-weight="700">Theme position by demand visibility and policy risk</text>
+                <text x="72" y="52" fill="#587076" font-size="11">Directional research map; relative positions are illustrative, not forecast returns</text>
+
+                <rect x="88" y="82" width="616" height="270" fill="#fffefa" stroke="#cfd3cc"/>
+                <rect x="88" y="82" width="308" height="135" fill="#f8dfd6" opacity=".25"/>
+                <rect x="396" y="217" width="308" height="135" fill="#dbeae5" opacity=".35"/>
+
+                <g stroke="#e2e3dc" stroke-width="1">
+                  <line x1="88" y1="149.5" x2="704" y2="149.5" stroke-dasharray="3 5"/>
+                  <line x1="88" y1="217" x2="704" y2="217"/>
+                  <line x1="88" y1="284.5" x2="704" y2="284.5" stroke-dasharray="3 5"/>
+                  <line x1="242" y1="82" x2="242" y2="352" stroke-dasharray="3 5"/>
+                  <line x1="396" y1="82" x2="396" y2="352"/>
+                  <line x1="550" y1="82" x2="550" y2="352" stroke-dasharray="3 5"/>
+                </g>
+
+                <g fill="#587076" font-size="10.5">
+                  <text x="79" y="89" text-anchor="end">High</text>
+                  <text x="79" y="221" text-anchor="end">Medium</text>
+                  <text x="79" y="356" text-anchor="end">Low</text>
+                  <text x="88" y="372" text-anchor="middle">Low</text>
+                  <text x="396" y="372" text-anchor="middle">Medium</text>
+                  <text x="704" y="372" text-anchor="middle">High</text>
+                  <text x="396" y="405" fill="#334b51" font-size="12" font-weight="700" text-anchor="middle">Demand visibility →</text>
+                  <text x="25" y="217" fill="#334b51" font-size="12" font-weight="700" text-anchor="middle" transform="rotate(-90 25 217)">Policy &amp; execution risk →</text>
+                </g>
+
+                <g font-size="11.5" font-weight="700" fill="#10252b">
+                  <circle cx="520" cy="274" r="9" fill="#0b6d68" stroke="#fffefa" stroke-width="3"/>
+                  <text x="534" y="278">Oil</text>
+
+                  <circle cx="590" cy="235" r="9" fill="#0b6d68" stroke="#fffefa" stroke-width="3"/>
+                  <text x="604" y="239">Gas / LNG</text>
+
+                  <circle cx="546" cy="183" r="9" fill="#b88b2e" stroke="#fffefa" stroke-width="3"/>
+                  <text x="560" y="187">Power</text>
+
+                  <circle cx="622" cy="144" r="9" fill="#b88b2e" stroke="#fffefa" stroke-width="3"/>
+                  <text x="636" y="148">Grid</text>
+
+                  <circle cx="650" cy="296" r="9" fill="#0b6d68" stroke="#fffefa" stroke-width="3"/>
+                  <text x="636" y="318" text-anchor="end">Uranium</text>
+
+                  <circle cx="394" cy="148" r="9" fill="#e4684a" stroke="#fffefa" stroke-width="3"/>
+                  <text x="380" y="152" text-anchor="end">Battery</text>
+
+                  <circle cx="258" cy="112" r="9" fill="#e4684a" stroke="#fffefa" stroke-width="3"/>
+                  <text x="272" y="116">Hydrogen</text>
+                </g>
+
+                <g fill="#587076" font-size="9.5" font-weight="600">
+                  <text x="100" y="99">HIGH RISK / LOW VISIBILITY</text>
+                  <text x="691" y="339" text-anchor="end">LOWER RISK / HIGH VISIBILITY</text>
+                </g>
               </g>
-              <text x="44" y="230" font-size="10" fill="#e4684a">↑ pressure</text>
             </svg>
-            <p>The map is arranged by sensitivity and policy drag: higher policy drag plus stronger demand uncertainty tends to make a segment a poor primary exposure for long-only duration positioning.</p>
+            </div>
+            <figcaption><strong>How to read:</strong> rightward themes have clearer demand support; upward themes carry more policy and delivery risk. Colour identifies the main return channel, not attractiveness. The lower-right quadrant is structurally easier to underwrite, subject to valuation and instrument design.</figcaption>
           </figure>
         </div>
       </div>
@@ -337,7 +533,7 @@
       <div class="wrap">
         <div class="section-head">
           <h2>Segment ranking: what to monitor first</h2>
-          <p class="kicker">A short ranking to rank where physical stress and investable narrative can diverge.</p>
+          <p class="kicker">A prioritised view of where physical stress and the investable narrative can diverge. Ranking reflects research urgency, not expected return. A high-ranked segment may already be fully valued or inaccessible through a suitable UK wrapper.</p>
         </div>
         <div class="table-wrap">
           <table>
@@ -399,6 +595,33 @@
     </section>
 
     <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Turning the theme into investable research</h2>
+          <p class="kicker">The cleanest process starts with the bottleneck, then identifies who is paid to relieve it, and only then selects an instrument. This helps avoid buying a broad “energy” label whose underlying earnings are driven by something else.</p>
+        </div>
+        <div class="action-grid">
+          <article class="action-card">
+            <h3>Near-term: installed bottlenecks</h3>
+            <p>Businesses with current orders, manufacturing capacity, regulated asset bases or contracted grid work can monetise scarcity before new generation technologies mature.</p>
+            <dl><dt>Exposure types</dt><dd>Electrical equipment, transformers, switchgear, cables, engineering and regulated networks.</dd><dt>KPIs</dt><dd>Book-to-bill, backlog conversion, factory utilisation, lead times, price/cost spread and capital expenditure allowances.</dd><dt>Failure mode</dt><dd>Capacity expansion arrives faster than demand, project cancellations rise, or valuation assumes peak margins indefinitely.</dd></dl>
+          </article>
+          <article class="action-card">
+            <h3>Medium-term: firm power</h3>
+            <p>Existing plants, gas infrastructure, storage, demand-response and contracted capacity can benefit where customers pay for availability rather than energy alone.</p>
+            <dl><dt>Exposure types</dt><dd>Utilities, independent power producers, midstream gas/LNG, storage operators and selected uranium/nuclear value-chain assets.</dd><dt>KPIs</dt><dd>Contract duration, capacity payments, dispatch margins, outage rates, fuel coverage, interconnection status and customer concentration.</dd><dt>Failure mode</dt><dd>Merchant commodity exposure overwhelms contracted earnings or a policy decision reallocates upgrade costs.</dd></dl>
+          </article>
+          <article class="action-card">
+            <h3>Long-term: technology options</h3>
+            <p>Advanced nuclear, geothermal, long-duration storage, new battery chemistries and fusion may create large markets, but most remain milestone-driven rather than cash-flow-driven.</p>
+            <dl><dt>Exposure types</dt><dd>Development-stage companies, diversified industrial suppliers and small thematic allocations where wrapper access is appropriate.</dd><dt>KPIs</dt><dd>Permits, offtake quality, demonstration performance, financing terms, manufacturing yield and cost per delivered firm MWh.</dd><dt>Failure mode</dt><dd>Non-binding announcements are mistaken for revenue, dilution funds delays, or technology success fails to produce shareholder returns.</dd></dl>
+          </article>
+        </div>
+        <div class="evidence-note"><p><strong>Instrument check:</strong> for any ETF, trust, or listed company, inspect revenue exposure, geography, currency, leverage, valuation, and wrapper eligibility. A thematic name is not evidence that earnings are tied to the bottleneck described here.</p></div>
+      </div>
+    </section>
+
+    <section>
       <div class="wrap">
         <div class="section-head">
           <h2>Regional watchlist and scenario path</h2>
@@ -463,6 +686,24 @@
             </ul>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Evidence base and further reading</h2>
+          <p class="kicker">Primary sources used to validate the report’s quantitative anchors. The charts in this note remain interpretive frameworks; they are not copied forecasts from these institutions.</p>
+        </div>
+        <div class="source-grid">
+          <div class="source-item"><b><a href="https://www.iea.org/news/data-centre-electricity-use-surged-in-2025-even-with-tightening-bottlenecks-driving-a-scramble-for-solutions">IEA · Key Questions on Energy and AI (2026)</a></b><p>Current demand growth, equipment bottlenecks, onsite gas development and the growing conditional SMR offtake pipeline.</p></div>
+          <div class="source-item"><b><a href="https://www.iea.org/reports/energy-and-ai/executive-summary">IEA · Energy and AI (2025)</a></b><p>Data-centre demand scenarios, generation mix, grid-delay risk, regional concentration and uncertainty ranges.</p></div>
+          <div class="source-item"><b><a href="https://www.iea.org/reports/energy-and-ai/energy-supply-for-ai">IEA · Energy supply for AI</a></b><p>How renewables, gas, coal and nuclear contribute across regions and time horizons.</p></div>
+          <div class="source-item"><b><a href="https://emp.lbl.gov/news/backlog-power-plants-seeking-transmission-grid-connection-eased-somewhat-2025-amidst">Lawrence Berkeley National Laboratory · Queued Up, 2026 update</a></b><p>US generation and storage queue volume and the observed request-to-agreement and request-to-operation timelines.</p></div>
+          <div class="source-item"><b><a href="https://www.eia.gov/todayinenergy/detail.php/detail.php?id=67344">US EIA · Data-centre power demand and fossil generation (2026)</a></b><p>Observed US load growth and regional implications of faster data-centre demand.</p></div>
+          <div class="source-item"><b><a href="https://www.iea.org/reports/electricity-2026/flexibility">IEA · Electricity 2026: Flexibility</a></b><p>Battery-storage deployment, cost declines and the role of storage in integrating large new loads.</p></div>
+        </div>
+        <p class="fine" style="margin-top:1.2rem">Source cut-off: 17 August 2026. Links point to public institutional material. Company-specific valuation, ETF eligibility and portfolio suitability require separate, current due diligence.</p>
       </div>
     </section>
 
