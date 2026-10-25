@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El Niño Commodity Monitor | 23 October 2026</title>
+  <style>
+    :root{--ink:#13221c;--muted:#5e6f67;--paper:#f5f2e9;--card:#fffdf8;--line:#d8d5ca;--green:#1f6b50;--green2:#dbece3;--amber:#a95f14;--amber2:#f7e5cd;--red:#9f3d32;--red2:#f3dedb;--blue:#285f78;--blue2:#dceaf0;--shadow:0 12px 34px rgba(26,45,36,.08)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#ece8dc 0,#f7f5ee 340px);color:var(--ink);font:15.5px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:#0c5d55;text-decoration-thickness:1px;text-underline-offset:2px}.page{max-width:1200px;margin:auto;padding:30px 22px 56px}.hero{background:linear-gradient(135deg,#153d31,#215d49 62%,#89703b);color:#fff;border-radius:24px;padding:34px 36px;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"";position:absolute;right:-90px;top:-110px;width:360px;height:360px;border:1px solid rgba(255,255,255,.18);border-radius:50%;box-shadow:0 0 0 38px rgba(255,255,255,.035),0 0 0 76px rgba(255,255,255,.025)}.kicker,.eyebrow{text-transform:uppercase;letter-spacing:.15em;font-weight:800;font-size:.72rem}.hero .kicker{color:#c9e4d7}.hero h1{font:700 clamp(2.15rem,5vw,4.25rem)/1.02 Georgia,serif;margin:.35rem 0 1rem;max-width:930px}.hero .lede{max-width:980px;font-size:1.08rem;color:#edf5f1}.hero .call{margin-top:18px;padding:16px 18px;border:1px solid rgba(255,255,255,.25);border-radius:14px;background:rgba(255,255,255,.09);max-width:1000px}.meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;color:#dcebe4;font-size:.86rem}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}.metric{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px;box-shadow:var(--shadow)}.metric .label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}.metric .value{font:700 1.65rem/1.15 Georgia,serif;margin:.24rem 0}.metric .detail{font-size:.84rem;color:var(--muted)}section{background:rgba(255,253,248,.93);border:1px solid var(--line);border-radius:18px;padding:24px;margin-top:16px;box-shadow:0 5px 22px rgba(38,45,39,.045)}h2{font:700 clamp(1.45rem,2.8vw,2.15rem)/1.1 Georgia,serif;margin:.25rem 0 .75rem}h3{font:700 1.03rem/1.25 Georgia,serif;margin:.15rem 0 .45rem}.eyebrow{color:var(--green)}.lede{font-size:1.02rem;color:#344a40}.chain,.calendar-grid,.notes,.prob-grid,.split{display:grid;gap:12px}.chain{grid-template-columns:repeat(4,1fr)}.step,.calendar-card,.note,.prob-card{border:1px solid var(--line);background:#faf8f1;border-radius:13px;padding:15px}.step b{display:block;color:var(--green);margin-bottom:5px}.step span,.fine{color:var(--muted);font-size:.86rem}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:13px;background:#fff}table{width:100%;border-collapse:collapse;min-width:1040px;font-size:.89rem}th,td{padding:12px 11px;text-align:left;vertical-align:top;border-bottom:1px solid #e6e3db}th{background:#1b493a;color:#fff;font-size:.73rem;text-transform:uppercase;letter-spacing:.055em}tr:last-child td{border-bottom:0}.name{font-weight:800}.tag{display:inline-block;border-radius:999px;background:var(--blue2);color:var(--blue);font-size:.66rem;line-height:1;padding:5px 7px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;margin:0 4px 4px 0}.status{display:inline-block;border-radius:999px;padding:5px 8px;font-size:.72rem;font-weight:800}.green{background:var(--green2);color:var(--green)}.amber{background:var(--amber2);color:#86500f}.red{background:var(--red2);color:var(--red)}.calendar-grid{grid-template-columns:repeat(3,1fr)}.calendar-card p,.note p,.prob-card p{margin:0;color:#3d5047}.split{grid-template-columns:1.15fr .85fr}.notes{grid-template-columns:repeat(3,1fr)}.prob-grid{grid-template-columns:repeat(4,1fr)}.prob-card .prob{font:700 2rem Georgia,serif;color:var(--green)}.prob-card .rank{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:800}.stance{margin-top:13px;border-left:5px solid var(--green);background:#edf4ef;padding:15px 17px;border-radius:9px}.release-list{display:grid;gap:8px}.release{display:grid;grid-template-columns:220px 1fr;gap:14px;border-bottom:1px solid var(--line);padding:9px 0}.release:last-child{border-bottom:0}.source-list{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.source-item{border-left:3px solid #a6bdb3;padding:7px 10px;background:#faf8f2}.source-item p{margin:2px 0 0;color:var(--muted);font-size:.83rem}.quality{background:#f6ead8;border:1px solid #e5c89e;border-radius:12px;padding:15px}.foot{font-size:.85rem;color:var(--muted)}ol,ul{padding-left:1.25rem}li+li{margin-top:.45rem}
+    @media(max-width:850px){.metrics,.chain,.calendar-grid,.notes,.prob-grid,.split,.source-list{grid-template-columns:1fr 1fr}.hero{padding:28px 24px}.release{grid-template-columns:1fr}}
+    @media(max-width:620px){.page{padding:14px 10px 34px}.hero{border-radius:17px;padding:24px 18px}.metrics,.chain,.calendar-grid,.notes,.prob-grid,.split,.source-list{grid-template-columns:1fr}section{padding:18px 15px;border-radius:14px}.table-wrap{overflow:visible;border:0;background:transparent}table{min-width:0}thead{display:none}tbody,tr,td{display:block;width:100%}tr{background:#fff;border:1px solid var(--line);border-radius:12px;margin:0 0 12px;padding:9px}td{border:0;padding:7px 8px}td:before{content:attr(data-label);display:block;font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800;margin-bottom:2px}.meta{gap:8px 14px}.hero h1{font-size:2.25rem}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="hero">
+    <div class="kicker">Weekly El Niño commodity monitor | 23 October 2026</div>
+    <h1>Observed Indonesian dryness strengthened. The commodity thesis did not.</h1>
+    <p class="lede">BMKG's 23 October analysis is the only material new climate evidence since the 22 October monitor. It classified the ASO El Niño as very strong at +3.05°C, measured low rainfall across 80.81% of Indonesia and below-normal rainfall across 87.82%, and kept drought warnings active in parts of southern Sumatra and Kalimantan. This raises the lagged palm and robusta watch, but there is still no measured crop loss or new official balance deterioration. USDA's post-cutoff Rice Stocks release also does not change the broad-grain view.</p>
+    <div class="call"><strong>Current stance.</strong> <span class="status green">watchlist / wait for physical proof</span> unchanged. Climate confidence is very high. Commodity-loss confidence remains low to medium. An observed rainfall deficit is not an inventory draw, production cut, export shortfall, or investment conclusion.</div>
+    <div class="meta"><span>Compared with 22 Oct 2026 monitor</span><span>Evidence cut-off: 23 Oct 2026, 14:35 BST</span><span>Research monitor; no trade or allocation recommendation</span></div>
+  </header>
+
+  <div class="metrics">
+    <div class="metric"><div class="label">BMKG ASO Niño3.4</div><div class="value">+3.05°C</div><div class="detail">Very strong El Niño | 23 Oct</div></div>
+    <div class="metric"><div class="label">Below-normal rain</div><div class="value">87.82%</div><div class="detail">Share of Indonesia in dekad II October</div></div>
+    <div class="metric"><div class="label">IRI phase probability</div><div class="value">100%</div><div class="detail">El Niño through MAM 2027 | unchanged</div></div>
+    <div class="metric"><div class="label">Malaysia palm stocks</div><div class="value">3.511 Mt</div><div class="detail">September buffer | unchanged</div></div>
+  </div>
+
+  <section>
+    <div class="eyebrow">Recorded workflow</div>
+    <h2>Evidence chain used this week</h2>
+    <div class="chain">
+      <div class="step"><b>1 | Forecast</b><span>Official phase, probability, confidence, peak and decay. Forecast certainty stays separate from crop-loss certainty.</span></div>
+      <div class="step"><b>2 | Crop regions</b><span>Observed rainfall, heat and drought warnings are matched to production regions and crop calendars.</span></div>
+      <div class="step"><b>3 | Physical balance</b><span>Production, stocks, exports and arrivals must confirm whether weather becomes a shortage.</span></div>
+      <div class="step"><b>4 | Product fit</b><span>Public product visibility is separated from account orderability and from the physical risk being monitored.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Compact change table</div>
+    <h2>What changed, what did not, and why</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Signal</th><th>Previous view</th><th>Current evidence</th><th>Updated view</th><th>Confidence</th><th>Next catalyst / date</th></tr></thead>
+        <tbody>
+          <tr>
+            <td data-label="Signal"><span class="name">ENSO and IOD</span></td>
+            <td data-label="Previous">Exceptional El Niño. Peak expected around November to December. IRI and BOM differed on whether the positive IOD was already established.</td>
+            <td data-label="Evidence"><span class="tag">Fact</span><a href="https://www.bmkg.go.id/iklim/dinamika-atmosfer/analisis-dinamika-atmosfer-dasarian-ii-oktober-2026">BMKG, 23 Oct</a> measured a dekadal Niño3.4 anomaly of +3.19°C, an ASO three-month index of +3.05°C and a monthly IOD index of +0.765. <a href="https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/">IRI, 19 Oct</a> still gives 100% El Niño probability from OND through MAM, 92% in AMJ and 60% in MJJ. <a href="https://www.bom.gov.au/climate/ahead/outlooks/">BOM, issued 22 Oct</a> still calls the IOD neutral.</td>
+            <td data-label="Updated"><span class="status amber">Forecast view unchanged</span><br><span class="tag">Inference</span>BMKG adds observed confirmation, not a new forecast path. Peak remains late 2026. Gradual decay is expected in boreal spring and early summer 2027.</td>
+            <td data-label="Confidence">Very high on strong to very strong El Niño. Medium on IOD classification and regional rainfall translation.</td>
+            <td data-label="Catalyst">BOM weekly refresh late Oct; NOAA 12 Nov; IRI 19 Nov</td>
+          </tr>
+          <tr>
+            <td data-label="Signal"><span class="name">Indonesia and palm oil</span></td>
+            <td data-label="Previous">Weather risk rising, but near-term scarcity weak. Any yield effect was expected mainly with a lag into 2027.</td>
+            <td data-label="Evidence"><span class="tag">Fact</span>BMKG reported low rainfall over 80.81% of Indonesia, below-normal rainfall over 87.82%, and rainy-season onset in only 8.3% of climate zones by dekad II October. Drought warnings include parts of South Sumatra and central, eastern and southern Kalimantan. <a href="https://bepi.mpob.gov.my/stat/web_report1.php?val=202684">MPOB September</a> remains the latest official balance: 2.117 Mt CPO output, 3.511 Mt palm stocks and 1.120 Mt exports.</td>
+            <td data-label="Updated"><span class="status amber">Physical hazard stronger; scarcity unchanged</span><br><span class="tag">Inference</span>The spatial overlap improves the lagged-yield warning. The stock cushion still blocks a near-term shortage call.</td>
+            <td data-label="Confidence">High on observed dryness and current Malaysian balance. Medium on plantation-level exposure. Low on quantified yield loss.</td>
+            <td data-label="Catalyst">Indonesian dekadal rain; MPOB October data 10 Nov</td>
+          </tr>
+          <tr>
+            <td data-label="Signal"><span class="name">Coffee: robusta vs arabica</span></td>
+            <td data-label="Previous">Robusta weather watch, but exports and London stocks buffered. Arabica remained physically tighter.</td>
+            <td data-label="Evidence"><span class="tag">Fact</span>The new BMKG dryness overlaps Indonesian robusta areas. <a href="https://ico.org/resources/coffee-market-report-statistics-section/">ICO's report list, checked 23 Oct</a>, still ends with September. That report showed August robusta green-bean exports up 22.4% year on year, Vietnam robusta exports up 69.2%, and London certified stocks at a 10-month high.</td>
+            <td data-label="Updated"><span class="status amber">Unchanged</span><br><span class="tag">Inference</span>Weather sensitivity increased. Current robusta availability did not tighten. COFF and the coffee component of AIGS remain Coffee C, or arabica, exposure.</td>
+            <td data-label="Confidence">High on product mismatch and retained trade data. Low to medium on next-crop robusta loss.</td>
+            <td data-label="Catalyst">Vietnam harvest arrivals; ICO October CMR</td>
+          </tr>
+          <tr>
+            <td data-label="Signal"><span class="name">Sugar</span></td>
+            <td data-label="Previous">India and Thailand weather risk unresolved. U.S. balance improved in October WASDE.</td>
+            <td data-label="Evidence"><span class="tag">Fact</span>No newer official India or Thailand crush, recovery or crop estimate was available. The retained USDA/FAS baselines are <a href="https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Sugar+Annual_New+Delhi_India_IN2026-0024.pdf">India, 29 Apr</a> at 33.6 Mt raw-value production and <a href="https://apps.fas.usda.gov/newgainapi/api/Report/DownloadReportByFileName?fileName=Sugar+Annual_Bangkok_Thailand_TH2026-0011.pdf">Thailand, 20 Apr</a> at 9.5 Mt.</td>
+            <td data-label="Updated"><span class="status amber">Unchanged / awaiting crushing evidence</span><br><span class="tag">Inference</span>The hazard is credible, but cane weight, sucrose recovery, reservoirs and mill throughput must prove a loss.</td>
+            <td data-label="Confidence">High that the official balance has not refreshed. Medium-low on 2026/27 Asian yield.</td>
+            <td data-label="Catalyst">India Oct-Mar crush; Thailand Dec crush; WASDE 10 Nov</td>
+          </tr>
+          <tr>
+            <td data-label="Signal"><span class="name">Southern African maize</span></td>
+            <td data-label="Previous">Planting weather risk was rising, but a record commercial crop provided a large opening buffer.</td>
+            <td data-label="Evidence"><span class="tag">Fact</span>No newer CEC estimate was available. <a href="https://www.sagis.org.za/wp-content/uploads/2026/09/CEC_2026-09-29.pdf">CEC, 29 Sep</a> remains the latest official checkpoint at 17.523 Mt of commercial maize, including 9.609 Mt white maize and 7.914 Mt yellow maize.</td>
+            <td data-label="Updated"><span class="status amber">Unchanged</span><br><span class="tag">Inference</span>October to early January planting makes establishment rain critical. South African white-maize risk remains a regional food and basis exposure, not the same instrument as globally traded corn.</td>
+            <td data-label="Confidence">High on the opening buffer. Medium on planting-weather risk. Low on loss before area and emergence data.</td>
+            <td data-label="Catalyst">CEC planting intentions and ninth estimate 27 Oct</td>
+          </tr>
+          <tr>
+            <td data-label="Signal"><span class="name">Cocoa</span></td>
+            <td data-label="Previous">Weather-sensitive watch. No current-season official balance was available.</td>
+            <td data-label="Evidence"><span class="tag">Fact</span>No newer free ICCO balance was published. <a href="https://www.icco.org/august-2026-quarterly-bulletin-of-cocoa-statistics/">ICCO's August bulletin</a> still estimates a 37 kt 2024/25 surplus and withholds 2025/26 production and grindings. No authoritative post-cutoff arrival series established a new shortage.</td>
+            <td data-label="Updated"><span class="status amber">Unchanged / evidence-limited</span><br><span class="tag">Inference</span>Main-crop weather remains worth monitoring. Weather, price moves and commentary are not arrival or balance proof.</td>
+            <td data-label="Confidence">High on the retained balance. Low on the current-season balance.</td>
+            <td data-label="Catalyst">West African arrivals; ICCO November bulletin</td>
+          </tr>
+          <tr>
+            <td data-label="Signal"><span class="name">Globally traded corn and broad grains</span></td>
+            <td data-label="Previous">October WASDE and old-crop U.S. corn stocks weakened the broad-shortage thesis. U.S. harvest execution risk remained modest.</td>
+            <td data-label="Evidence"><span class="tag">Fact</span><a href="https://esmis.nal.usda.gov/sites/default/release-files/796116/rice1026.txt">USDA Rice Stocks, released 22 Oct after the prior cutoff</a>, put California rough rice at 2.645m cwt on 1 October, up 5% year on year. California milled rice was 1.403m cwt, almost unchanged year on year. The October release is California-only and does not revise the global balance. <a href="https://esmis.nal.usda.gov/sites/default/release-files/796099/wasde1026.txt">October WASDE</a> still shows 787.84 Mt of total-grain ending stocks.</td>
+            <td data-label="Updated"><span class="status amber">Unchanged</span><br><span class="tag">Inference</span>The narrow Rice Stocks release adds no synchronized grain-shortage signal. U.S. corn, South African white maize and broad grains remain distinct channels.</td>
+            <td data-label="Confidence">High on the official data and its scope. Medium on U.S. harvest-loss risk.</td>
+            <td data-label="Catalyst">USDA Crop Progress 26 Oct; AMIS 6 Nov; WASDE 10 Nov</td>
+          </tr>
+          <tr>
+            <td data-label="Signal"><span class="name">UK product visibility</span></td>
+            <td data-label="Previous">Seven public Trading 212 pages were visible. No account-level check or clean direct robusta or palm route was verified.</td>
+            <td data-label="Evidence"><span class="tag">Fact</span>Public pages were directly opened on 23 Oct for <a href="https://www.trading212.com/trading-instruments/invest/AGAP.GB">AGAP</a>, <a href="https://www.trading212.com/trading-instruments/invest/AIGS.GB">AIGS</a>, <a href="https://www.trading212.com/trading-instruments/invest/COFF.GB">COFF</a>, <a href="https://www.trading212.com/trading-instruments/invest/SUGA.GB">SUGA</a>, <a href="https://www.trading212.com/trading-instruments/invest/COCO.GB">COCO</a>, <a href="https://www.trading212.com/trading-instruments/invest/CORN.GB">CORN</a> and <a href="https://www.trading212.com/trading-instruments/invest/AIGG.GB">AIGG</a>.</td>
+            <td data-label="Updated"><span class="status green">Public visibility reverified</span><br><span class="tag">Inference</span>Public catalogue visibility does not prove account eligibility, ticket acceptance, spreads, liquidity or suitability.</td>
+            <td data-label="Confidence">High on public-page visibility and issuer mechanics. Low on account-level orderability.</td>
+            <td data-label="Catalyst">Account-specific ticket preview only if separately authorised</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Regions and crop calendars</div>
+    <h2>Where the forecast meets sensitive windows</h2>
+    <div class="calendar-grid">
+      <article class="calendar-card"><h3>Indonesia and Malaysia | palm oil</h3><p>Harvest is year-round. Moisture stress affects flowering, fruit set and bunch formation before later output. The 23 October rain analysis strengthens the lagged watch. September's 3.511 Mt Malaysian stock cushion delays the scarcity test.</p></article>
+      <article class="calendar-card"><h3>Vietnam and Indonesia | robusta</h3><p>Vietnam's main harvest is starting. Dry weather may help picking at first. Persistent stress matters more for later flowering and fruit set. Current exports and London stocks still resist a scarcity call.</p></article>
+      <article class="calendar-card"><h3>India and Thailand | sugar</h3><p>India's October-start crushing season and Thailand's December-start season make cane weight, sucrose recovery, reservoirs and mill throughput the next proof points.</p></article>
+      <article class="calendar-card"><h3>Southern Africa | maize</h3><p>October to early January is the main planting window. Establishment rainfall is critical, especially for regional white maize. The 17.523 Mt commercial crop is the opening buffer.</p></article>
+      <article class="calendar-card"><h3>Ghana and Côte d'Ivoire | cocoa</h3><p>The October to March main crop is beginning. Arrivals, pod disease, bean quality and grindings must establish a balance change.</p></article>
+      <article class="calendar-card"><h3>Global corn, wheat and rice</h3><p>U.S. corn harvest execution remains the main near-term crop issue. Wheat, rice and the larger October stock estimates still offset a synchronized broad-grain shortage view.</p></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">UK-accessible exposure</div>
+    <h2>Visible routes exist, but physical fit remains uneven</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Route</th><th>What it tracks</th><th>23 Oct access evidence</th><th>Fit with current physical thesis</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Route"><strong>AGAP / AIGA</strong></td><td data-label="Tracks"><a href="https://www.wisdomtree.eu/-/media/eu-media-files/key-documents/factsheet/etf-securities/factsheet---wisdomtree-agriculture.pdf?sc_lang=en-gb">Collateralised broad agriculture futures basket</a>.</td><td data-label="Access">AGAP public Trading 212 page opened. No account-level ticket check.</td><td data-label="Fit">Broad exposure dilutes selective palm and robusta risk. Grain buffers weaken the basket case.</td></tr>
+          <tr><td data-label="Route"><strong>AIGS</strong></td><td data-label="Tracks"><a href="https://www.wisdomtree.eu/it-it/products/ucits-etfs-unleveraged-etps/commodities/wisdomtree-softs">Sugar, Coffee C, cotton and cocoa futures</a>.</td><td data-label="Access">Public page opened. No order preview.</td><td data-label="Fit">Its coffee component is arabica, not robusta.</td></tr>
+          <tr><td data-label="Route"><strong>COFF</strong></td><td data-label="Tracks"><a href="https://www.wisdomtree.eu/en-gb/-/media/eu-media-files/key-documents/factsheet/etf-securities/factsheet---wisdomtree-coffee.pdf">Rolled Bloomberg Coffee Subindex futures total return</a>. The benchmark uses Coffee C, or arabica.</td><td data-label="Access">Public page opened. No order preview.</td><td data-label="Fit">It does not express Indonesian or Vietnamese robusta risk cleanly.</td></tr>
+          <tr><td data-label="Route"><strong>SUGA / COCO</strong></td><td data-label="Tracks"><a href="https://www.wisdomtree.eu/-/media/eu-media-files/other-documents/product-list/etf-product-list.pdf">Single-commodity futures ETCs listed in London</a>.</td><td data-label="Access">Both public pages opened. No account-level check.</td><td data-label="Fit">Direct futures beta only after physical proof. Curve, roll, foreign exchange and product structure can break spot intuition.</td></tr>
+          <tr><td data-label="Route"><strong>CORN / AIGG</strong></td><td data-label="Tracks">Rolled corn futures or a diversified grains futures basket.</td><td data-label="Access">Both public pages opened. No order preview.</td><td data-label="Fit">Neither maps South African white-maize basis. Current balances still weaken broad grain exposure.</td></tr>
+          <tr><td data-label="Route"><strong>Direct robusta / palm oil</strong></td><td data-label="Tracks">The desired regional physical channels.</td><td data-label="Access">No clean UK-listed direct route was identified in current or prior checks. This is not an exhaustive absence claim.</td><td data-label="Fit"><span class="status red">Do not force a proxy.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="fine">A public product page proves catalogue visibility only. It does not prove access for a specific UK account or wrapper, ticket acceptance, liquidity, spread, tax treatment or suitability. No order or preview was attempted.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Probability-weighted thesis</div>
+    <h2>Scenario weights remain unchanged through June 2027</h2>
+    <p class="lede"><span class="tag">Analyst inference</span>These mutually exclusive scenario weights sum to 100%. They are not official climate probabilities, return forecasts or allocation advice.</p>
+    <div class="prob-grid">
+      <article class="prob-card"><div class="rank">1 | Base case</div><div class="prob">55%</div><h3>Selective stress, no material tightening</h3><p>Dryness persists in places, but stocks, alternate origins and demand or export adjustments prevent material balance tightening.</p></article>
+      <article class="prob-card"><div class="rank">2 | Offset case</div><div class="prob">30%</div><h3>Hazard without investable loss</h3><p>The event is exceptional, but timing, local rain, buffers or product mismatch block a usable physical thesis.</p></article>
+      <article class="prob-card"><div class="rank">3 | Regional tightening</div><div class="prob">10%</div><h3>Palm or robusta later confirm</h3><p>Lagged crop losses eventually overcome current inventories and export availability in one regional channel.</p></article>
+      <article class="prob-card"><div class="rank">4 | Tail case</div><div class="prob">5%</div><h3>Broad synchronized shortage</h3><p>Several official balances tighten together enough to validate broad agriculture exposure.</p></article>
+    </div>
+    <div class="stance"><strong>No probability change from 22 October.</strong> The new rainfall evidence raises regional monitoring priority. It does not yet justify raising commodity-scarcity odds.</div>
+  </section>
+
+  <section>
+    <div class="split">
+      <div>
+        <div class="eyebrow">Highest-value developments</div>
+        <h2>This week</h2>
+        <ol>
+          <li><strong>Observed Indonesian dryness broadened.</strong> BMKG measured low rainfall over 80.81% of the country and below-normal rainfall over 87.82% in dekad II October.</li>
+          <li><strong>Very strong El Niño was confirmed in observations.</strong> BMKG put the ASO three-month index at +3.05°C. The forecast peak and decay path did not change.</li>
+          <li><strong>The IOD classification difference remains.</strong> BMKG's monthly index was +0.765. BOM still classified the IOD as neutral on 22 October.</li>
+          <li><strong>The post-cutoff Rice Stocks report was not a broad-grain shock.</strong> It showed California rough rice up 5% year on year and almost unchanged milled stocks.</li>
+          <li><strong>Public UK product visibility held.</strong> Seven public Trading 212 pages opened on 23 October. Account-level access and physical fit remain separate questions.</li>
+        </ol>
+      </div>
+      <div>
+        <div class="eyebrow">No manufactured novelty</div>
+        <h2>Still unchanged</h2>
+        <p class="quality">No new official palm, coffee, sugar, cocoa, Southern African maize or global corn balance deteriorated after the 22 October report. The scenario weights and watchlist posture are unchanged. Palm and robusta remain the most climate-sensitive monitoring channels, but both still lack current physical tightening proof.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Next release windows</div>
+    <h2>Dates that can move the view</h2>
+    <div class="release-list">
+      <div class="release"><b>26 Oct | USDA NASS</b><span>U.S. corn harvest progress. Watch whether the eight-point lag closes or begins to affect field loss and quality.</span></div>
+      <div class="release"><b>27 Oct | South Africa CEC</b><span>Summer-crop planting intentions and ninth 2026 production estimate.</span></div>
+      <div class="release"><b>Late Oct | BMKG and BOM</b><span>Indonesian rain deficits, rainy-season onset and IOD classification.</span></div>
+      <div class="release"><b>6 Nov | FAO / AMIS</b><span>Global wheat, maize, rice and soybean supply, stocks and trade cross-check.</span></div>
+      <div class="release"><b>10 Nov | MPOB and USDA</b><span>Expected October Malaysian palm balance and November WASDE window.</span></div>
+      <div class="release"><b>12 Nov | NOAA CPC</b><span>Official ENSO phase, historic-strength odds and decay path.</span></div>
+      <div class="release"><b>19 Nov | IRI</b><span>Next objective ENSO and IOD model update.</span></div>
+      <div class="release"><b>Oct and Nov</b><span>ICO October CMR, Vietnam robusta arrivals, West African cocoa arrivals and ICCO quarterly bulletin.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Decision gates</div>
+    <h2>Strengthen, weaken, invalidate</h2>
+    <div class="notes">
+      <article class="note"><h3>Strengthen</h3><p>Indonesian deficits persist across palm and robusta production zones into crop-sensitive stages; MPOB output falls and stocks draw for several months; Vietnam arrivals or exports weaken; Asian cane recovery is cut; cocoa arrivals disappoint; South African planting is materially delayed; or several official balances tighten together.</p></article>
+      <article class="note"><h3>Weaken</h3><p>MPOB stocks stay above 3 Mt; robusta exports and certified stocks remain high; broad rain returns to southern Sumatra and Kalimantan; South African planting establishes normally; Asian sugar recovery holds; U.S. corn harvest catches up without condition loss; or cocoa arrivals improve.</p></article>
+      <article class="note"><h3>Invalidate</h3><p>A very strong El Niño passes without adverse target-region crop anomalies; official balances keep improving into early 2027; observed price moves are better explained by policy, logistics, foreign exchange, energy or positioning; or no UK-accessible instrument matches the physical channel.</p></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Source and freshness</div>
+    <h2>What is current, retained and still uncertain</h2>
+    <div class="notes">
+      <article class="note"><h3>Current through cutoff</h3><p>BMKG 23 Oct; USDA Rice Stocks 22 Oct, released after the prior report cutoff; BOM 22 Oct; IRI 19 Oct; NOAA 8 Oct; public product pages opened 23 Oct. Exact cutoff: 14:35 BST.</p></article>
+      <article class="note"><h3>Retained dated balances</h3><p>MPOB September data released 12 Oct; ICO September CMR; USDA WASDE 9 Oct; AMIS 2 Oct; CEC 29 Sep; ICCO August bulletin. These are not presented as new weekly changes.</p></article>
+      <article class="note"><h3>Material limits</h3><p>No new official India or Thailand sugar recovery, ICCO 2025/26 balance, Vietnam harvest-arrival series, plantation-level Indonesian yield measure or product-level account check was available.</p></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Primary and authoritative sources</div>
+    <h2>Short source list</h2>
+    <div class="source-list">
+      <div class="source-item"><a href="https://www.bmkg.go.id/iklim/dinamika-atmosfer/analisis-dinamika-atmosfer-dasarian-ii-oktober-2026">BMKG | Atmospheric dynamics, dekad II October</a><p>23 Oct 2026 | ENSO, IOD, rainfall distribution, rainy-season onset and drought warnings.</p></div>
+      <div class="source-item"><a href="https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/">IRI | October ENSO forecast</a><p>19 Oct 2026 | Model probabilities, strength, peak and decay.</p></div>
+      <div class="source-item"><a href="https://www.bom.gov.au/climate/ahead/outlooks/">Australian Bureau of Meteorology | Long-range outlook</a><p>Issued 22 Oct 2026 | Peak timing and IOD classification.</p></div>
+      <div class="source-item"><a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml">NOAA CPC | ENSO Diagnostic Discussion</a><p>8 Oct 2026 | Official advisory and historic-strength probabilities.</p></div>
+      <div class="source-item"><a href="https://esmis.nal.usda.gov/sites/default/release-files/796116/rice1026.txt">USDA NASS | Rice Stocks</a><p>22 Oct 2026 | California rough and milled rice stocks as of 1 October.</p></div>
+      <div class="source-item"><a href="https://bepi.mpob.gov.my/stat/web_report1.php?val=202684">MPOB | Malaysian palm industry summary</a><p>September 2026 preliminary | Production, stocks, exports and imports.</p></div>
+      <div class="source-item"><a href="https://ico.org/resources/coffee-market-report-statistics-section/">ICO | Coffee Market Report</a><p>September 2026 remains latest | Trade and certified stocks.</p></div>
+      <div class="source-item"><a href="https://esmis.nal.usda.gov/sites/default/release-files/796099/wasde1026.txt">USDA | October WASDE</a><p>9 Oct 2026 | Corn, rice, broad grains and U.S. sugar balances.</p></div>
+      <div class="source-item"><a href="https://www.amis-outlook.org/market-monitor">FAO AMIS | October Market Monitor</a><p>2 Oct 2026 | Global wheat, maize, rice and soybean context.</p></div>
+      <div class="source-item"><a href="https://www.sagis.org.za/wp-content/uploads/2026/09/CEC_2026-09-29.pdf">South Africa CEC | Summer crop estimate</a><p>29 Sep 2026 | Commercial, white and yellow maize.</p></div>
+      <div class="source-item"><a href="https://www.icco.org/august-2026-quarterly-bulletin-of-cocoa-statistics/">ICCO | August Quarterly Bulletin</a><p>31 Aug 2026 | Last verified cocoa balance and withheld 2025/26 data.</p></div>
+      <div class="source-item"><a href="https://www.trading212.com/trading-instruments/invest">Trading 212 | Public instrument catalogue</a><p>Pages opened 23 Oct 2026 | Public visibility only, not account access.</p></div>
+    </div>
+  </section>
+
+  <section class="foot">
+    <p><strong>Scope.</strong> Weekly evidence monitor, not a spot-price forecast, trade or allocation recommendation. Source facts are separated from analyst inference. Physical sensitivity is separated from instrument exposure. Public product pages are not proof of account access or suitability. Search snippets, vendor forecasts and market commentary were used only as discovery leads unless corroborated by an official or primary source.</p>
+  </section>
+</main>
+</body>
+</html>
